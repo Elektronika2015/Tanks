@@ -7,7 +7,7 @@
 #include "client_lib.h"
 #include "common_codes.h"
 
-class CLIENT_LIBSHARED_EXPORT client : public QObject
+class client : public QObject
 {
     Q_OBJECT
 public:

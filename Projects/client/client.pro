@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS += \
-    client_lib \
-    app \
+    client_app \
+    client_lib

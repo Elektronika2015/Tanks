@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QAbstractSocket>
 #include <QVector>
+#include <QMutex>
 //#include "player_client.h"
 #include "logger.h"
 #include "thread.h"

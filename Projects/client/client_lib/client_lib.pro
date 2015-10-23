@@ -1,19 +1,18 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-10-10T13:14:45
+# Project created by QtCreator 2015-10-23T14:54:05
 #
 #-------------------------------------------------
 
-QT       -= gui
 QT       += network
 
-DEFINES += CLIENT_LIB
+QT       -= gui
 
 TARGET = client_lib
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += \
+SOURCES += client_lib.cpp \
     client.cpp
 
 HEADERS += client_lib.h \

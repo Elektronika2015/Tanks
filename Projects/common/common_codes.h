@@ -17,7 +17,7 @@
 
 #define CLIENT_DISCONNECTED_TXT "CLI_DIS"
 
-#define MSG_TXT_LENGTH (int)std::strlen(NEW_POSITION_TXT)
+#define MSG_TXT_LENGTH 7
 
 /**
  * @brief qPointToByteArray takes QPoint and returns its string version in format x:y

@@ -1,15 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-10-10T13:14:01
+# Project created by QtCreator 2015-10-23T14:53:27
 #
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = app
+TARGET = client_app
 TEMPLATE = app
 
 
