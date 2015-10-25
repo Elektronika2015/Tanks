@@ -8,6 +8,8 @@ client::client(QObject *parent)
 
 int client::connectToServer(QString address, QString port)
 {
+
+
     QHostAddress hostAddress;
     hostAddress.setAddress(address);
 
@@ -26,6 +28,7 @@ int client::connectToServer(QString address, QString port)
     this->address = address;
     this->port = port;
     return 1;
+
 }
 
 int client::updatePosition()
@@ -40,4 +43,3 @@ int client::updatePosition()
 
     return true;
 }
-

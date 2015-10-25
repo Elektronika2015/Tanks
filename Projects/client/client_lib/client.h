@@ -15,6 +15,7 @@ public:
     int connectToServer(QString address, QString port);
     int updatePosition();
 private:
+
     QString address,port;
     QTcpSocket socket;
 
