@@ -13,8 +13,6 @@ private:
     int lifes;
     QString name;
 
-
-
 public:
     Tank(QString playerName);
     void updateCoordinates(int x, int y)

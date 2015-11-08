@@ -130,5 +130,37 @@ static int getPosStringFromData(QByteArray src, QByteArray &dst)
     return 0;
 }
 
+
+enum direction
+{
+    north = 1,
+    east,
+    south,
+    west
+};
+
+
+static int directionToString(direction dir, QString& dst)
+{
+    switch(dir)
+    {
+    case north:
+        dst = "north";
+        break;
+    case south:
+        dst="south";
+        break;
+    case east:
+        dst="east";
+        break;
+    case west:
+        dst="west";
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
+
 #endif // COMMON_CODES_H
 

@@ -25,7 +25,7 @@ private:
     QGraphicsScene *battleItemsContainer;
 
 
-    virtual void keyPressEvent(QKeyEvent *event);
+    //virtual void keyPressEvent(QKeyEvent *event);
 
 
 };
