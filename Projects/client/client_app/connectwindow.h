@@ -4,6 +4,8 @@
 #include <QWidget>
 //#include <client.h>
 #include <gamewindow.h>
+#include "client_socket.h"
+#include <QMessageBox>
 
 namespace Ui {
 class ConnectWindow;
@@ -23,10 +25,16 @@ private slots:
 
     void on_connectButton_clicked();
 
+    void connectionAcceptedSlot();
+    void nameAlreadyExistsSlot();
+    void serverSendMessageSlot(QString data);
+
 private:
     Ui::ConnectWindow *ui;
     QWidget *mainWindowPointer;
     GameWindow *win;
+
+    client_socket socket;
 
 };
 
