@@ -10,6 +10,8 @@ private slots:
     void test_byteArrayToQPoint();
     void test_makeNewPositionMSG();
     void test_getPosStringFromData();
+    void test_directionToString();
+    void test_activityToString();
 };
 
 
@@ -131,6 +133,102 @@ void commonTests::test_getPosStringFromData()
             QCOMPARE(positionTest, positionCompare);
         }
     }
+}
+
+void commonTests::test_directionToString()
+{
+    QString compare;
+
+    //north
+    {
+        QString dst;
+        compare="north";
+        QCOMPARE(0,directionToString(north,dst));
+        QCOMPARE(compare,dst);
+    }
+
+    //east
+    {
+        QString dst;
+        compare="east";
+        QCOMPARE(0,directionToString(east,dst));
+        QCOMPARE(compare,dst);
+    }
+
+    //south
+    {
+        QString dst;
+        compare="south";
+        QCOMPARE(0,directionToString(south,dst));
+        QCOMPARE(compare,dst);
+    }
+
+    //west
+    {
+        QString dst;
+        compare="south";
+        QCOMPARE(0,directionToString(south,dst));
+        QCOMPARE(compare,dst);
+    }
+
+}
+
+void commonTests::test_activityToString()
+{
+    //join
+    {
+        QString compare, dst;
+        compare=JOIN_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(joined,dst));
+        QCOMPARE(compare,dst);
+    }
+
+    //leftGame
+    {
+        QString compare, dst;
+        compare=LEFT_GAME_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(leftGame,dst));
+        QCOMPARE(compare,dst);
+    }
+
+
+    //moved
+    {
+        QString compare, dst;
+        compare=MOVED_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(moved,dst));
+        QCOMPARE(compare,dst);
+    }
+
+
+    //fired
+    {
+        QString compare, dst;
+        compare=FIRED_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(fired,dst));
+        QCOMPARE(compare,dst);
+    }
+
+
+    //destroyed
+    {
+        QString compare, dst;
+        compare=DESTROYED_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(tankDestroyed,dst));
+        QCOMPARE(compare,dst);
+    }
+
+
+    //shown
+    {
+        QString compare, dst;
+        compare=SHOWN_ACTIVITY_STRING;
+        QCOMPARE(0,activityToString(shown,dst));
+        QCOMPARE(compare,dst);
+    }
+
+
+
 }
 
 DECLARE_TEST(commonTests)

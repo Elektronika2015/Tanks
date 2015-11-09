@@ -3,7 +3,7 @@
 client::client(QObject *parent)
     : QObject(parent)
 {
-
+    connect(&socket,SIGNAL(readyRead()),this,SLOT(readyRead()));
 }
 
 int client::connectToServer(QString address, QString port)
@@ -42,4 +42,9 @@ int client::updatePosition()
     socket.write(data);
 
     return true;
+}
+
+void client::readyRead()
+{
+
 }

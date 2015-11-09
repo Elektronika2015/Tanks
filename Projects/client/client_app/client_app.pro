@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     connectwindow.cpp \
     gamewindow.cpp \
     tank.cpp \
-    tankmodel.cpp
+    tankmodel.cpp \
+    client_socket.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
     gamewindow.h \
     tank.h \
-    tankmodel.h
+    tankmodel.h \
+    client_socket.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \
