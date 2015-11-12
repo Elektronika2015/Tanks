@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QKeyEvent>
 #include "ball.h"
+#include "common_codes.h"
 #include <QGraphicsScene>
 
 

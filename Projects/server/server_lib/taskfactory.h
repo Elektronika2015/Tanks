@@ -23,7 +23,9 @@ protected:
 
     enum TASKS{
         position_changed_task = 1,
-        player_disconnected_task
+        player_disconnected_task,
+        player_shooted,
+        player_destroyed
     };
 };
 

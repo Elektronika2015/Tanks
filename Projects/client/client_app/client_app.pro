@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT       += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = client_app
@@ -13,19 +13,21 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     connectwindow.cpp \
     gamewindow.cpp \
     tank.cpp \
     tankmodel.cpp \
-    ball.cpp
+    ball.cpp \
+    client_socket.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
     gamewindow.h \
     tank.h \
     tankmodel.h \
-    ball.h
+    ball.h \
+    client_socket.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \

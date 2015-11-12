@@ -8,6 +8,9 @@ ConnectWindow::ConnectWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->backButton,SIGNAL(clicked()),mainWindowPointer,SLOT(back()));
+    connect(&socket,SIGNAL(connectionAccepted()),this,SLOT(connectionAcceptedSlot()));
+    connect(&socket,SIGNAL(nameAlreadyExists()),this,SLOT(nameAlreadyExistsSlot()));
+    connect(&socket,SIGNAL(serverSendMessage(QString)),this,SLOT(serverSendMessageSlot(QString)));
 }
 
 ConnectWindow::~ConnectWindow()
@@ -19,27 +22,30 @@ ConnectWindow::~ConnectWindow()
 
 void ConnectWindow::on_connectButton_clicked()
 {
-    /*
-     Tu ma być tak, że zbieram dane z pól nazwa, serwer i port, wpierdziulam to do biblioteki
-     no i potem próbuje się połączyć z serwerem wysyłając też nazwę, dostaję od Michasia pozwolenie
-     i wtedy mogę u siebię mapkę stworzyć
-    client *fun = new client;
 
-    bool i=  fun->hurcziConnectToServer(ui->lineEdit_3->displayText()
-                              ,ui->lineEdit_2->displayText()
-                              ,ui->lineEdit->displayText());
+    socket.connectToServer(this->ui->serverAddresLineEdit->text()
+                         ,this->ui->serverPortLineEdit->text()
+                         ,this->ui->nameLineEdit->text());
+}
 
-    if(i==1)
-    {
-            ui->label_4->setText("ok");
-    }
-    */
-
+void ConnectWindow::connectionAcceptedSlot()
+{
     win= new GameWindow(this);
+    ui->label_4->setText("ok");
     win->show();
-    hide();
+    this->hide();
+}
 
+void ConnectWindow::nameAlreadyExistsSlot()
+{
+    QMessageBox box;
+    box.setText("Istnieje juz gracz o takim nicku!");
+    box.exec();
+}
 
+void ConnectWindow::serverSendMessageSlot(QString data)
+{
+    logger::log(data);
 }
 
 void ConnectWindow::on_backButton_clicked()

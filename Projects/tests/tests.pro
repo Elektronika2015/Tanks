@@ -24,7 +24,8 @@ SOURCES += \
     common_tests/datetimetests.cpp \
     client_tests/client_tests_test.cpp \
     common_tests/commontests.cpp \
-    server_tests/taskfactorytests.cpp
+    server_tests/taskfactorytests.cpp \
+    common_tests/messagemanagertests.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../client/client_lib/release/ -lclient_lib

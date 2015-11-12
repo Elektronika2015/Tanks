@@ -39,7 +39,3 @@ GameWindow::~GameWindow()
     delete ui;
 }
 
-
-
-
-

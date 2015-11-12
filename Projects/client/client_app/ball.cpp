@@ -28,17 +28,17 @@ void Ball::moveBullet(direction dir, int x, int y)
     setVisible(true);
     switch(dir)
     {
-    case tank_up:
+    case north:
          setPos(x+20,y);
          break;
-    case tank_down:
+    case south:
          setPos(x+20,y+50);
          break;
-    case tank_left:
+    case west:
          setPos(x-25,y+20);
          break;
 
-    case tank_right:
+    case east:
          setPos(x+50,y+20);
 
         break;

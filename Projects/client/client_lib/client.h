@@ -18,7 +18,8 @@ private:
 
     QString address,port;
     QTcpSocket socket;
-
+private slots:
+    void readyRead();
 };
 
 #endif // CLIENT_H

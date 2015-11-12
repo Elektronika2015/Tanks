@@ -65,7 +65,7 @@
     <string>Port</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="nameLineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -75,7 +75,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLineEdit" name="serverAddresLineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -84,8 +84,11 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>127.0.0.1</string>
+   </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_3">
+  <widget class="QLineEdit" name="serverPortLineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -93,6 +96,9 @@
      <width>113</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>1234</string>
    </property>
   </widget>
   <widget class="QPushButton" name="backButton">

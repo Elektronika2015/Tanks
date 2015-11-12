@@ -3,8 +3,8 @@
 
 #include <QGraphicsItem>
 #include <QGraphicsView>
-
-enum direction{tank_up,tank_down,tank_left,tank_right};
+#include "common_codes.h"
+//enum direction{north,south,west,east};
 
 class Ball: public QGraphicsItem
 {

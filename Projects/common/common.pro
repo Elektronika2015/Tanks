@@ -16,14 +16,16 @@ CONFIG += staticlib
 SOURCES += \
     bullet.cpp \
     logger.cpp \
-    datetime.cpp
+    datetime.cpp \
+    messagemanager.cpp
 
 HEADERS += \
     common_lib.h \
     bullet.h \
     logger.h \
     datetime.h \
-    common_codes.h
+    common_codes.h \
+    messagemanager.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

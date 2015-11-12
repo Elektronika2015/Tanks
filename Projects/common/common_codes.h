@@ -130,5 +130,118 @@ static int getPosStringFromData(QByteArray src, QByteArray &dst)
     return 0;
 }
 
+
+enum direction
+{
+    north = 1,
+    east,
+    south,
+    west
+};
+
+
+static int directionToString(direction dir, QString& dst)
+{
+    switch(dir)
+    {
+    case north:
+        dst = "north";
+        break;
+    case south:
+        dst="south";
+        break;
+    case east:
+        dst="east";
+        break;
+    case west:
+        dst="west";
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
+
+static int stringToDirection(QString dirString, direction &dst)
+{
+    if(dirString == "north")
+        dst = north;
+    else if(dirString == "east")
+        dst=east;
+    else if(dirString == "south")
+        dst=south;
+    else if(dirString == "west")
+        dst=west;
+    else
+        return 1;
+
+    return 0;
+}
+
+enum activity
+{
+    joined= 1,
+    leftGame,
+    moved,
+    fired,
+    tankDestroyed,
+    shown    //shown on map, after joined and destroyed
+};
+
+#define JOIN_ACTIVITY_STRING "joined"
+#define LEFT_GAME_ACTIVITY_STRING "leftGame"
+#define MOVED_ACTIVITY_STRING "moved"
+#define FIRED_ACTIVITY_STRING "fired"
+#define DESTROYED_ACTIVITY_STRING "destroyed"
+#define SHOWN_ACTIVITY_STRING "shown"
+
+static int activityToString(activity act, QString &dst)
+{
+    switch(act)
+    {
+    case joined:
+        dst = JOIN_ACTIVITY_STRING;
+        break;
+    case leftGame:
+        dst=LEFT_GAME_ACTIVITY_STRING;
+        break;
+    case moved:
+        dst=MOVED_ACTIVITY_STRING;
+        break;
+    case fired:
+        dst=FIRED_ACTIVITY_STRING;
+        break;
+    case tankDestroyed:
+        dst=DESTROYED_ACTIVITY_STRING;
+        break;
+    case shown:
+        dst=SHOWN_ACTIVITY_STRING;
+        break;
+    default:
+        return 1;
+    }
+    return 0;
+}
+
+static int stringToActivity(QString actString, activity &dst)
+{
+    if(actString == JOIN_ACTIVITY_STRING)
+        dst = joined;
+    else if(actString == LEFT_GAME_ACTIVITY_STRING)
+        dst=leftGame;
+    else if(actString == MOVED_ACTIVITY_STRING)
+        dst=moved;
+    else if(actString == FIRED_ACTIVITY_STRING)
+        dst=fired;
+    else if(actString == SHOWN_ACTIVITY_STRING)
+        dst = shown;
+    else if(actString == DESTROYED_ACTIVITY_STRING)
+        dst=tankDestroyed;
+    else
+        return 1;
+
+    return 0;
+}
+
 #endif // COMMON_CODES_H
 

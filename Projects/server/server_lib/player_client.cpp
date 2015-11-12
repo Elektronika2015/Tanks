@@ -33,6 +33,7 @@ void player_client::firstConnection()
     else
     {
         int result = socket->write(DATA_RECEIVED);
+        socket->flush();
         if(result == -1)
         {
             logger::log("Server was unable to write data to: " + socket->peerName()+ ":" + socket->peerPort());
@@ -95,6 +96,7 @@ void player_client::write(QString data)
 int player_client::sendMsgToClient(QByteArray msg)
 {
     int result = this->socket->write(msg);
+    socket->flush();
     if(result == -1)
     {
         logger::log("Failed to write to client: " + QString(descriptor));

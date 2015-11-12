@@ -5,7 +5,7 @@ TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent), rightEdge(79
     upEdge(-90), downEdge(495)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
-    tankDirection =tank_up;
+    tankDirection =north;
 }
 
 
@@ -28,21 +28,20 @@ void TankModel::keyPressEvent(QKeyEvent *event)
    {
    case Qt::Key_Right:
         setRotation(90);
-        if(!(check_map_edges(tank_right))) break;
-        tankDirection=tank_right;
+        if(!(check_map_edges(east))) break;
+        tankDirection=east;
         setTransformOriginPoint(20,25);
+
         moveBy(5,0);
         coordinateX=pos().x();
         coordinateY=pos().y();
 
         break;
 
-
-
    case Qt::Key_Left:
         setRotation(270);
-        if(!(check_map_edges(tank_left))) break;
-        tankDirection=tank_left;
+        if(!(check_map_edges(west))) break;
+        tankDirection=west;
         setTransformOriginPoint(20,25);
         moveBy(-5,0);
         coordinateX=pos().x();
@@ -52,8 +51,8 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
    case Qt::Key_Up:
         setRotation(0);
-        tankDirection=tank_up;
-        if(!(check_map_edges(tank_up))) break;
+        tankDirection=north;
+        if(!(check_map_edges(north))) break;
         setTransformOriginPoint(20,25);
         moveBy(0,-5);
         coordinateX=pos().x();
@@ -63,25 +62,19 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
    case Qt::Key_Down:
         setRotation(180);
-        if(!(check_map_edges(tank_down))) break;
-        tankDirection=tank_down;
+        if(!(check_map_edges(south))) break;
+        tankDirection=south;
         setTransformOriginPoint(20,25);
         moveBy(0,5);
         coordinateX=pos().x();
         coordinateY=pos().y();
+
         break;
 
    case Qt::Key_Space:
         shoot();
-
-   case Qt::Key_M:
-       delete bullet;
-
-
-     break;
-
- }
-
+		break;
+   }
 }
 
 
@@ -89,19 +82,19 @@ bool TankModel::check_map_edges(direction dir)
 {
     switch(dir)
     {
-    case tank_up:
+    case north:
         if(coordinateY==upEdge) return false;
         break;
 
-    case tank_down:
+    case south:
         if(coordinateY==downEdge) return false;
         break;
 
-    case tank_left:
+    case west:
         if(coordinateX==leftEdge) return false;
         break;
 
-    case tank_right:
+    case east:
         if(coordinateX==rightEdge) return false;
         break;
 
@@ -116,6 +109,5 @@ void TankModel::shoot()
     bullet->moveBullet(tankDirection,coordinateX,coordinateY);
     //pointerToBattleItemsCointainer->addItem(bullet);
     //delete bullet;
-
 
 }
