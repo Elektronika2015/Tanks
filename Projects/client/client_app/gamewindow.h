@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <tank.h>
 #include <QKeyEvent>
+#include "logger.h"
 
 namespace Ui {
 class GameWindow;
@@ -23,9 +24,6 @@ private:
     QWidget *connectWindowPointer;
     QGraphicsView * battlefield;
     QGraphicsScene *battleItemsContainer;
-
-
-    virtual void keyPressEvent(QKeyEvent *event);
 
 
 };

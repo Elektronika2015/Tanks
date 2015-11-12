@@ -5,11 +5,11 @@
 #include <QGraphicsView>
 #include "tankmodel.h"
 
+
 class Tank
 {
 private:
-    int coordinateX;
-    int coordinateY;
+
     int lifes;
     QString name;
 
@@ -17,15 +17,16 @@ private:
 
 public:
     Tank(QString playerName);
+    /*
     void updateCoordinates(int x, int y)
     {
         coordinateX+=x;
         coordinateY+=y;
     }
+
+    */
     void updateLife(int life ){lifes=life;}
     TankModel *czolg;
-
-
 
 
 

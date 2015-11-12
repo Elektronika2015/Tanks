@@ -1,5 +1,6 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
+#include <QGraphicsView>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,43 +9,37 @@ GameWindow::GameWindow(QWidget *parent) :
 
 {
     ui->setupUi(this);
-    battleItemsContainer = new QGraphicsScene(0,0,200,200);
+    battleItemsContainer = new QGraphicsScene(-380,-90,1220,635);
     battleItemsContainer->setBackgroundBrush(Qt::black);
     player = new Tank("Arczi");
     battleItemsContainer->addItem(player->czolg);
     battlefield = new QGraphicsView(battleItemsContainer);
-
-    //battlefield->show();
+    QPen mypen= QPen(Qt::red);
+    QLineF TopLine(battleItemsContainer->sceneRect().topLeft(),battleItemsContainer->sceneRect().topRight());
+    QLineF LeftLine(battleItemsContainer->sceneRect().topLeft(),battleItemsContainer->sceneRect().bottomLeft());
+    QLineF RightLine(battleItemsContainer->sceneRect().topRight(),battleItemsContainer->sceneRect().bottomRight());
+    QLineF BottomLine(battleItemsContainer->sceneRect().bottomLeft(),battleItemsContainer->sceneRect().bottomRight());
+    battleItemsContainer->addLine(TopLine,mypen);
+    battleItemsContainer->addLine(LeftLine,mypen);
+    battleItemsContainer->addLine(RightLine,mypen);
+    battleItemsContainer->addLine(BottomLine,mypen);
+    player->czolg->pointerToBattleItemsCointainer==battleItemsContainer;
     setCentralWidget(battlefield);
 
-;
+
+
+
+
 
 }
+
 
 GameWindow::~GameWindow()
 {
     delete ui;
 }
 
-void GameWindow::keyPressEvent(QKeyEvent *event)
-{
-   switch(event->key())
-   {
-   case Qt::Key_Right:
 
-        player->updateCoordinates(2,0);
-        player->czolg->moveBy(2,0);
-        break;
 
-   case Qt::Key_Left:
 
-        player->updateCoordinates(-2,0);
-        player->czolg->moveBy(-2,0);
-        break;
-    default:
-       player->czolg->moveBy(2,2);
-
-    }
-
-}
 

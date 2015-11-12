@@ -20,6 +20,9 @@ ConnectWindow::~ConnectWindow()
 void ConnectWindow::on_connectButton_clicked()
 {
     /*
+     Tu ma być tak, że zbieram dane z pól nazwa, serwer i port, wpierdziulam to do biblioteki
+     no i potem próbuje się połączyć z serwerem wysyłając też nazwę, dostaję od Michasia pozwolenie
+     i wtedy mogę u siebię mapkę stworzyć
     client *fun = new client;
 
     bool i=  fun->hurcziConnectToServer(ui->lineEdit_3->displayText()

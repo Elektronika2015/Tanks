@@ -1,0 +1,15 @@
+*.o
+libs/client/client_app/debug/client_app.exe
+*.Release
+libs/client/client_app/Makefile.Debug
+*.Debug
+libs/client/client_app/Makefile
+*.exe
+libs/console_tests/Makefile
+libs/Makefile
+Projects/Czolgi.pro.user
+*.user
+*.a
+libs/client/client_lib/Makefile
+libs/common/Makefile
+libs/server/server_lib/Makefile

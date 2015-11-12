@@ -2,7 +2,6 @@
 #define CONNECTWINDOW_H
 
 #include <QWidget>
-//#include <client.h>
 #include <gamewindow.h>
 
 namespace Ui {
@@ -20,7 +19,6 @@ public:
 
 private slots:
     void on_backButton_clicked();
-
     void on_connectButton_clicked();
 
 private:
