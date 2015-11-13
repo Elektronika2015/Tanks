@@ -7,6 +7,7 @@ ConnectWindow::ConnectWindow(QWidget *parent) :
     mainWindowPointer(parent)
 {
     ui->setupUi(this);
+
     connect(ui->backButton,SIGNAL(clicked()),mainWindowPointer,SLOT(back()));
     connect(&socket,SIGNAL(connectionAccepted()),this,SLOT(connectionAcceptedSlot()));
     connect(&socket,SIGNAL(nameAlreadyExists()),this,SLOT(nameAlreadyExistsSlot()));
@@ -22,10 +23,11 @@ ConnectWindow::~ConnectWindow()
 
 void ConnectWindow::on_connectButton_clicked()
 {
+    ui->serverAddresLineEdit->text();
+    socket.connectToServer(ui->serverAddresLineEdit->text()
+                         ,ui->serverPortLineEdit->text()
+                         ,ui->nameLineEdit->text());
 
-    socket.connectToServer(this->ui->serverAddresLineEdit->text()
-                         ,this->ui->serverPortLineEdit->text()
-                         ,this->ui->nameLineEdit->text());
 }
 
 void ConnectWindow::connectionAcceptedSlot()
@@ -48,7 +50,13 @@ void ConnectWindow::serverSendMessageSlot(QString data)
     logger::log(data);
 }
 
+void ConnectWindow::on_nameLineEdit_editingFinished()
+{
+
+}
+
 void ConnectWindow::on_backButton_clicked()
 {
 
 }
+

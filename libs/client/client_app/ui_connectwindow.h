@@ -28,9 +28,9 @@ public:
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
-    QLineEdit *lineEdit;
-    QLineEdit *lineEdit_2;
-    QLineEdit *lineEdit_3;
+    QLineEdit *nameLineEdit;
+    QLineEdit *serverAddresLineEdit;
+    QLineEdit *serverPortLineEdit;
     QPushButton *backButton;
     QLabel *label_4;
 
@@ -51,15 +51,15 @@ public:
         label_3 = new QLabel(ConnectWindow);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(40, 110, 47, 13));
-        lineEdit = new QLineEdit(ConnectWindow);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(130, 50, 113, 20));
-        lineEdit_2 = new QLineEdit(ConnectWindow);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setGeometry(QRect(130, 80, 113, 20));
-        lineEdit_3 = new QLineEdit(ConnectWindow);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-        lineEdit_3->setGeometry(QRect(130, 110, 113, 20));
+        nameLineEdit = new QLineEdit(ConnectWindow);
+        nameLineEdit->setObjectName(QStringLiteral("nameLineEdit"));
+        nameLineEdit->setGeometry(QRect(130, 50, 113, 20));
+        serverAddresLineEdit = new QLineEdit(ConnectWindow);
+        serverAddresLineEdit->setObjectName(QStringLiteral("serverAddresLineEdit"));
+        serverAddresLineEdit->setGeometry(QRect(130, 80, 113, 20));
+        serverPortLineEdit = new QLineEdit(ConnectWindow);
+        serverPortLineEdit->setObjectName(QStringLiteral("serverPortLineEdit"));
+        serverPortLineEdit->setGeometry(QRect(130, 110, 113, 20));
         backButton = new QPushButton(ConnectWindow);
         backButton->setObjectName(QStringLiteral("backButton"));
         backButton->setGeometry(QRect(210, 200, 75, 23));
@@ -79,6 +79,8 @@ public:
         label->setText(QApplication::translate("ConnectWindow", "Nick", 0));
         label_2->setText(QApplication::translate("ConnectWindow", "Adres ip serwera", 0));
         label_3->setText(QApplication::translate("ConnectWindow", "Port", 0));
+        serverAddresLineEdit->setText(QApplication::translate("ConnectWindow", "127.0.0.1", 0));
+        serverPortLineEdit->setText(QApplication::translate("ConnectWindow", "1234", 0));
         backButton->setText(QApplication::translate("ConnectWindow", "Wstecz", 0));
         label_4->setText(QApplication::translate("ConnectWindow", "Nie ok", 0));
     } // retranslateUi

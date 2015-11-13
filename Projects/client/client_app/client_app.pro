@@ -16,7 +16,6 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     connectwindow.cpp \
     gamewindow.cpp \
-    tank.cpp \
     tankmodel.cpp \
     ball.cpp \
     client_socket.cpp
@@ -24,7 +23,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     connectwindow.h \
     gamewindow.h \
-    tank.h \
     tankmodel.h \
     ball.h \
     client_socket.h

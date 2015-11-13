@@ -105,8 +105,8 @@ bool TankModel::check_map_edges(direction dir)
 void TankModel::shoot()
 {
 
-    bullet = new Ball;
-    bullet->moveBullet(tankDirection,coordinateX,coordinateY);
+    //bullet = new Ball;
+   // bullet->moveBullet(tankDirection,coordinateX,coordinateY);
     //pointerToBattleItemsCointainer->addItem(bullet);
     //delete bullet;
 

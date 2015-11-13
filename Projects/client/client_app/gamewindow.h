@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
-#include <tank.h>
+#include "tankmodel.h"
 #include <QKeyEvent>
 #include "logger.h"
 
@@ -18,7 +18,7 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = 0);
     ~GameWindow();
-    Tank *player;
+    void createRedEdgeLine();
 private:
     Ui::GameWindow *ui;
     QWidget *connectWindowPointer;

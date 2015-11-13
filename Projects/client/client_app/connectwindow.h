@@ -2,7 +2,7 @@
 #define CONNECTWINDOW_H
 
 #include <QWidget>
-#include <gamewindow.h>
+#include "gamewindow.h"
 #include "client_socket.h"
 #include <QMessageBox>
 
@@ -26,6 +26,8 @@ private slots:
     void connectionAcceptedSlot();
     void nameAlreadyExistsSlot();
     void serverSendMessageSlot(QString data);
+
+    void on_nameLineEdit_editingFinished();
 
 private:
     Ui::ConnectWindow *ui;
