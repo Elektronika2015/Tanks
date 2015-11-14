@@ -9,15 +9,25 @@ GameWindow::GameWindow(QWidget *parent) :
 
 {
     ui->setupUi(this);
-    QGraphicsScene *battleItemsContainer = new QGraphicsScene(-380,-90,1220,635);
-    battleItemsContainer->setBackgroundBrush(Qt::black);
-    TankModel *ourPlayer = new TankModel();
-    battleItemsContainer->addItem(ourPlayer);
-    QGraphicsView *battlefield = new QGraphicsView(battleItemsContainer);
-    createRedEdgeLine();
+    battleItemsContainer.setSceneRect(MAP_WEST_EDGE,MAP_NORTH_EDGE,(-MAP_WEST_EDGE)+MAP_EAST_EDGE,(-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE);
+    battleItemsContainer.setBackgroundBrush(Qt::black);
+    battleItemsContainer.addItem(&ourPlayer.bullet);
+    battleItemsContainer.addItem(&ourPlayer);
 
-    ourPlayer->pointerToBattleItemsCointainer==battleItemsContainer;
-    setCentralWidget(battlefield);
+    battlefield.setScene(&battleItemsContainer);
+
+    QPen mypen= QPen(Qt::red);
+    QLineF TopLine(battleItemsContainer.sceneRect().topLeft(),battleItemsContainer.sceneRect().topRight());
+    QLineF LeftLine(battleItemsContainer.sceneRect().topLeft(),battleItemsContainer.sceneRect().bottomLeft());
+    QLineF RightLine(battleItemsContainer.sceneRect().topRight(),battleItemsContainer.sceneRect().bottomRight());
+    QLineF BottomLine(battleItemsContainer.sceneRect().bottomLeft(),battleItemsContainer.sceneRect().bottomRight());
+    battleItemsContainer.addLine(TopLine,mypen);
+    battleItemsContainer.addLine(LeftLine,mypen);
+    battleItemsContainer.addLine(RightLine,mypen);
+    battleItemsContainer.addLine(BottomLine,mypen);
+
+
+    setCentralWidget(&battlefield);
 
 
 
@@ -32,16 +42,4 @@ GameWindow::~GameWindow()
     delete ui;
 }
 
-void GameWindow::createRedEdgeLine()
-{
-    QPen mypen= QPen(Qt::red);
-    QLineF TopLine(battleItemsContainer->sceneRect().topLeft(),battleItemsContainer->sceneRect().topRight());
-    QLineF LeftLine(battleItemsContainer->sceneRect().topLeft(),battleItemsContainer->sceneRect().bottomLeft());
-    QLineF RightLine(battleItemsContainer->sceneRect().topRight(),battleItemsContainer->sceneRect().bottomRight());
-    QLineF BottomLine(battleItemsContainer->sceneRect().bottomLeft(),battleItemsContainer->sceneRect().bottomRight());
-    battleItemsContainer->addLine(TopLine,mypen);
-    battleItemsContainer->addLine(LeftLine,mypen);
-    battleItemsContainer->addLine(RightLine,mypen);
-    battleItemsContainer->addLine(BottomLine,mypen);
-}
 

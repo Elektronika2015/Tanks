@@ -18,12 +18,14 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = 0);
     ~GameWindow();
-    void createRedEdgeLine();
 private:
+    QGraphicsScene battleItemsContainer;
+    QGraphicsView battlefield;
+    TankModel ourPlayer;
+
+
     Ui::GameWindow *ui;
     QWidget *connectWindowPointer;
-    QGraphicsView * battlefield;
-    QGraphicsScene *battleItemsContainer;
 
 
 };

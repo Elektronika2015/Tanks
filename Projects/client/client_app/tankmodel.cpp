@@ -1,8 +1,7 @@
 #include "tankmodel.h"
 #include "logger.h"
 
-TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent), rightEdge(795), leftEdge(-375),
-    upEdge(-90), downEdge(495)
+TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     tankDirection =north;
@@ -28,10 +27,9 @@ void TankModel::keyPressEvent(QKeyEvent *event)
    {
    case Qt::Key_Right:
         setRotation(90);
-        if(!(check_map_edges(east))) break;
         tankDirection=east;
+        if(!(check_map_edges(east))) break;
         setTransformOriginPoint(20,25);
-
         moveBy(5,0);
         coordinateX=pos().x();
         coordinateY=pos().y();
@@ -40,8 +38,8 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
    case Qt::Key_Left:
         setRotation(270);
-        if(!(check_map_edges(west))) break;
         tankDirection=west;
+        if(!(check_map_edges(west))) break;
         setTransformOriginPoint(20,25);
         moveBy(-5,0);
         coordinateX=pos().x();
@@ -72,7 +70,10 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         break;
 
    case Qt::Key_Space:
-        shoot();
+       if(timer.isActive())break;
+       bullet.setBullet(tankDirection,coordinateX,coordinateY);
+       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
+       timer.start(18);
 		break;
    }
 }
@@ -83,19 +84,19 @@ bool TankModel::check_map_edges(direction dir)
     switch(dir)
     {
     case north:
-        if(coordinateY==upEdge) return false;
+        if(coordinateY==(MAP_NORTH_EDGE+5)) return false;
         break;
 
     case south:
-        if(coordinateY==downEdge) return false;
+        if(coordinateY==(MAP_SOUTH_EDGE-50)) return false;
         break;
 
     case west:
-        if(coordinateX==leftEdge) return false;
+        if(coordinateX==(MAP_WEST_EDGE+5)) return false;
         break;
 
     case east:
-        if(coordinateX==rightEdge) return false;
+        if(coordinateX==(MAP_EAST_EDGE-50)) return false;
         break;
 
     }
@@ -104,10 +105,11 @@ bool TankModel::check_map_edges(direction dir)
 
 void TankModel::shoot()
 {
-
-    //bullet = new Ball;
-   // bullet->moveBullet(tankDirection,coordinateX,coordinateY);
-    //pointerToBattleItemsCointainer->addItem(bullet);
-    //delete bullet;
+    bullet.moveBullet();
+    if(bullet.checkEdges())
+    {
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
+    }
 
 }

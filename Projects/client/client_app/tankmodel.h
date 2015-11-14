@@ -6,31 +6,31 @@
 #include "ball.h"
 #include "common_codes.h"
 #include <QGraphicsScene>
+#include <QTimer>
 
 
-class TankModel: public QGraphicsItem
+
+class TankModel:public QObject, public QGraphicsItem
 {
+    Q_OBJECT
 public:
 
     direction tankDirection;
-    Ball * bullet;
     int coordinateX;
     int coordinateY;
-    QGraphicsScene * pointerToBattleItemsCointainer;
+    Ball bullet;
     TankModel(QGraphicsItem *parent =NULL);
     bool check_map_edges(direction dir);
-    void shoot();
+
     QRectF boundingRect() const;
     virtual void keyPressEvent(QKeyEvent *event);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
-    const int rightEdge;
-    const int leftEdge;
-    const int upEdge;
-    const int downEdge;
-
+    QTimer timer;
+private slots:
+    void shoot();
 
 };
 

@@ -4,16 +4,29 @@
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include "common_codes.h"
-//enum direction{north,south,west,east};
 
 class Ball: public QGraphicsItem
 {
+
+
 public:
     Ball(QGraphicsItem *parent =NULL);
     QRectF boundingRect() const;
-    void moveBullet(direction dir,int x, int y);
+
+    void setBullet(direction dir, int x, int y);
+    void moveBullet();
+    bool checkEdges();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+private:
+   direction ballDirection;
+   int ballCoordinateX;
+   int ballCoordinateY;
+
+   void updateBallCoordinates();
+
+
 };
 
 #endif // BALL_H

@@ -19,6 +19,11 @@
 
 #define MSG_TXT_LENGTH 7
 
+#define MAP_EAST_EDGE       795
+#define MAP_WEST_EDGE      -375
+#define MAP_NORTH_EDGE     -90
+#define MAP_SOUTH_EDGE      495
+
 /**
  * @brief qPointToByteArray takes QPoint and returns its string version in format x:y
  * @param src - Qpoint

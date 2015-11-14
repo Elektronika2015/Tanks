@@ -23,11 +23,12 @@ ConnectWindow::~ConnectWindow()
 
 void ConnectWindow::on_connectButton_clicked()
 {
-    ui->serverAddresLineEdit->text();
+    connectionAcceptedSlot();
+    /*
     socket.connectToServer(ui->serverAddresLineEdit->text()
                          ,ui->serverPortLineEdit->text()
                          ,ui->nameLineEdit->text());
-
+*/
 }
 
 void ConnectWindow::connectionAcceptedSlot()
