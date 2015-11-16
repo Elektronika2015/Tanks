@@ -23,17 +23,18 @@ ConnectWindow::~ConnectWindow()
 
 void ConnectWindow::on_connectButton_clicked()
 {
-    connectionAcceptedSlot();
-    /*
+    //connectionAcceptedSlot();
+
     socket.connectToServer(ui->serverAddresLineEdit->text()
                          ,ui->serverPortLineEdit->text()
                          ,ui->nameLineEdit->text());
-*/
+
 }
 
 void ConnectWindow::connectionAcceptedSlot()
 {
     win= new GameWindow(this);
+    win->setSocketPointer(&socket);
     ui->label_4->setText("ok");
     win->show();
     this->hide();

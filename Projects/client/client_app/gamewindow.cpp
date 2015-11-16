@@ -25,11 +25,7 @@ GameWindow::GameWindow(QWidget *parent) :
     battleItemsContainer.addLine(LeftLine,mypen);
     battleItemsContainer.addLine(RightLine,mypen);
     battleItemsContainer.addLine(BottomLine,mypen);
-
-
     setCentralWidget(&battlefield);
-
-
 
 
 

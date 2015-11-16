@@ -34,6 +34,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         coordinateX=pos().x();
         coordinateY=pos().y();
 
+
         break;
 
    case Qt::Key_Left:
