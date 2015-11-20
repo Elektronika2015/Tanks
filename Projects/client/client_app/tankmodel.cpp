@@ -4,7 +4,9 @@
 TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
+    name = "noname";
     tankDirection =north;
+    setTransformOriginPoint(20,25);
 }
 
 
@@ -20,63 +22,110 @@ void TankModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->drawPixmap(0,0, QPixmap(":/Graphics/tank1.png"));
 }
+QString TankModel::getName() const
+{
+    return name;
+}
+
+void TankModel::setName(const QString &value)
+{
+    name = value;
+}
+
+void TankModel::setPosition(standardTankInfo info)
+{
+    setPos(info.position.x(),info.position.y());
+    setTankDirection(info.tankDirection);
+}
+
+void TankModel::setTankDirection(direction dir)
+{
+    switch(dir)
+    {
+        case east:
+        setRotation(90);
+        tankDirection=east;
+        break;
+
+    case west:
+        setRotation(270);
+        tankDirection=west;
+        break;
+
+    case north:
+        setRotation(0);
+        tankDirection=north;
+        break;
+
+    case south:
+        setRotation(180);
+        tankDirection=south;
+
+        break;
+
+
+    }
+}
+
 
 void TankModel::keyPressEvent(QKeyEvent *event)
 {
-   switch(event->key())
-   {
-   case Qt::Key_Right:
-        setRotation(90);
-        tankDirection=east;
-        if(!(check_map_edges(east))) break;
-        setTransformOriginPoint(20,25);
-        moveBy(5,0);
-        coordinateX=pos().x();
-        coordinateY=pos().y();
+    standardTankInfo info;
 
+    switch(event->key())
+    {
+    case Qt::Key_Right:
+        setTankDirection(east);
+        if(!(check_map_edges(east))) break;
+
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
 
         break;
 
    case Qt::Key_Left:
-        setRotation(270);
-        tankDirection=west;
+        setTankDirection(west);
         if(!(check_map_edges(west))) break;
-        setTransformOriginPoint(20,25);
-        moveBy(-5,0);
-        coordinateX=pos().x();
-        coordinateY=pos().y();
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
 
    case Qt::Key_Up:
-        setRotation(0);
-        tankDirection=north;
+        setTankDirection(north);
         if(!(check_map_edges(north))) break;
-        setTransformOriginPoint(20,25);
-        moveBy(0,-5);
-        coordinateX=pos().x();
-        coordinateY=pos().y();
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
 
    case Qt::Key_Down:
-        setRotation(180);
+        setTankDirection(south);
         if(!(check_map_edges(south))) break;
-        tankDirection=south;
-        setTransformOriginPoint(20,25);
-        moveBy(0,5);
-        coordinateX=pos().x();
-        coordinateY=pos().y();
-
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
    case Qt::Key_Space:
-       if(timer.isActive())break;
-       bullet.setBullet(tankDirection,coordinateX,coordinateY);
-       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
-       timer.start(18);
-		break;
+//       if(timer.isActive())break;
+//       bullet.setBullet(tankDirection,coordinateX,coordinateY);
+//       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
+//       timer.start(18);
+       info.name=this->name;
+       info.position = this->pos().toPoint();
+       info.tankDirection = tankDirection;
+       info.tankActivity = fired;
+        break;
    }
+    emit messageSignal(info);
 }
 
 
@@ -85,19 +134,19 @@ bool TankModel::check_map_edges(direction dir)
     switch(dir)
     {
     case north:
-        if(coordinateY==(MAP_NORTH_EDGE+5)) return false;
+        if(y()==(MAP_NORTH_EDGE+5)) return false;
         break;
 
     case south:
-        if(coordinateY==(MAP_SOUTH_EDGE-50)) return false;
+        if(y()==(MAP_SOUTH_EDGE-50)) return false;
         break;
 
     case west:
-        if(coordinateX==(MAP_WEST_EDGE+5)) return false;
+        if(x()==(MAP_WEST_EDGE+5)) return false;
         break;
 
     case east:
-        if(coordinateX==(MAP_EAST_EDGE-50)) return false;
+        if(x()==(MAP_EAST_EDGE-50)) return false;
         break;
 
     }

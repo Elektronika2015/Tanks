@@ -7,12 +7,12 @@ MyTank::MyTank(QGraphicsItem *parent):QGraphicsItem(parent)
 }
 
 
-QRectF TankModel::boundingRect() const
+QRectF MyTank::boundingRect() const
 {
     return QRectF(0,0,40,50);
 }
 
-void TankModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void MyTank::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->drawPixmap(0,0,QPixmap(":/Graphics/tank1.png"));
 }

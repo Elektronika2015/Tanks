@@ -20,6 +20,7 @@ SOURCES += main.cpp\
     ball.cpp \
     client_socket.cpp \
     mytank.cpp
+    enemytank.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
@@ -28,6 +29,7 @@ HEADERS  += mainwindow.h \
     ball.h \
     client_socket.h \
     mytank.h
+    enemytank.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \

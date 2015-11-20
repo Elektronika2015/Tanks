@@ -248,5 +248,13 @@ static int stringToActivity(QString actString, activity &dst)
     return 0;
 }
 
+struct standardTankInfo
+{
+    QPoint position;
+    direction tankDirection;
+    QString name;
+    activity tankActivity;
+};
+
 #endif // COMMON_CODES_H
 

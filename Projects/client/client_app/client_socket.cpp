@@ -3,10 +3,10 @@
 client_socket::client_socket(QObject *parent)
     : QObject(parent),playerName("No name")
 {
-    connect(&socket,SIGNAL(readyRead()),this,SLOT(readyRead()));
-    connect(&socket,SIGNAL(connected()),this,SLOT(connected()));
-    connect(&socket,SIGNAL(disconnected()),this,SLOT(disconnected()));
-    connect(&socket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)));
+    connect(&socket,SIGNAL(readyRead()),this,SLOT(readyRead()),Qt::DirectConnection);
+    connect(&socket,SIGNAL(connected()),this,SLOT(connected()),Qt::DirectConnection);
+    connect(&socket,SIGNAL(disconnected()),this,SLOT(disconnected()),Qt::DirectConnection);
+    connect(&socket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)),Qt::DirectConnection);
 
     firstConnection = true;
 }
@@ -42,6 +42,7 @@ void client_socket::connected()
 void client_socket::disconnected()
 {
     socket.deleteLater();
+    socket.disconnectFromHost();
 }
 
 void client_socket::readyRead()

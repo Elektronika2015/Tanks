@@ -35,6 +35,7 @@ private:
     QWidget *mainWindowPointer;
     GameWindow *win;
     client_socket socket;
+    bool firstConnection;
 
 
 };
