@@ -22,6 +22,9 @@ public:
     void setName(const QString &value);
     QTcpSocket *getSocket() const;
 
+    QPoint getPosition() const;
+    void setPosition(const QPoint &value);
+
 signals:
     void error(QTcpSocket::SocketError socketError);
     void playerConnected(QString name, player_client* client);
@@ -42,6 +45,7 @@ private:
     int descriptor;
     int goodNameProvided;
     TCPserver *server;
+    QPoint position;
 
     int sendMsgToClient(QByteArray msg);
 };

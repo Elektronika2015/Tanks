@@ -22,6 +22,8 @@ void client_socket::connectToServer(QString address, QString port, QString name)
 
 int client_socket::writeToServer(QString data)
 {
+    if(firstConnection)
+        tmpName = data;
     socket.write(data.toStdString().c_str());
     socket.flush();
 }
@@ -59,6 +61,7 @@ void client_socket::readyRead()
         if(data==CONNECTION_ACCEPTED)
         {
             emit connectionAccepted();
+            playerName = tmpName;
             firstConnection = false;
         }
         else if(data==NAME_ALREADY_EXISTS)
@@ -69,6 +72,7 @@ void client_socket::readyRead()
     else
     {
         QByteArray data = socket.readAll();
+        logger::log("Data read in client: "+ playerName + " : "+data);
         if(data.isEmpty())
         {
             logger::log("Strange. Server did not send any data.");

@@ -35,8 +35,8 @@ static int qPointToByteArray(QPoint src, QByteArray& dst)
     if(src.isNull())
         return 1;
 
-    if(src.x() < 0 || src.y() < 0)
-        return 1;
+//    if(src.x() < 0 || src.y() < 0)
+//        return 1;
 
     QString tmp = QString::number(src.x()) +":"+ QString::number(src.y());
     dst = tmp.toStdString().c_str();
@@ -104,8 +104,8 @@ static int makeNewPositionMSG(QPoint pos, QByteArray& dst)
     if(pos.isNull())
         return 1;
 
-    if(pos.x() < 0 || pos.y() < 0)
-        return 1;
+//    if(pos.x() < 0 || pos.y() < 0)
+//        return 1;
 
     dst=NEW_POSITION_TXT;
 

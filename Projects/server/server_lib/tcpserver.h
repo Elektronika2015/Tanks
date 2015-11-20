@@ -9,6 +9,7 @@
 #include "logger.h"
 #include "thread.h"
 #include "taskfactory.h"
+#include <QPoint>
 
 #define RUN_ON_LOCALHOST 1
 #define RUN_ON_COMPUTER_HOST 2
@@ -22,6 +23,13 @@ private:
     QMap<QString, player_client*> clients;
 
     friend class taskFactory;
+
+    int handleFirstConnection(QString name, player_client* client);
+    int handleClientLeftGame(QString name);
+    int handleClientMoved(standardTankInfo info, QString message);
+    int sendMessageToClients(QString data);
+
+    int checkForCollision(standardTankInfo info);
 
 public:
     explicit TCPserver(QObject *parent = 0);

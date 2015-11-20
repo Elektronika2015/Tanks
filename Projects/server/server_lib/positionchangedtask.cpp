@@ -1,30 +1,30 @@
 #include "positionchangedtask.h"
 
-positionChangedTask::positionChangedTask(QMap<QString, player_client *> *clientsPTR, QString data, QString name)
+notifyClientsTask::notifyClientsTask(QMap<QString, player_client *> *clientsPTR, QString data, QString name)
     :clients(clientsPTR)
 {
     this->data = data;
     this->name = name;
 }
 
-void positionChangedTask::run()
+void notifyClientsTask::run()
 {
     notifyClients();
 }
 
-void positionChangedTask::notifyClients()
+void notifyClientsTask::notifyClients()
 {
     QMapIterator<QString, player_client*> iter(*clients);
     for(int i = 0; i<clients->count(); i++)
     {
-        int result;
+        //int result;
 
         iter.next();
         logger::log("Writing to " + iter.value()->getName());
 
-        //dont write to the sender!
-        if(iter.value()->getName() == name)
-            continue;
+//        //dont write to the sender!
+//        if(iter.value()->getName() == name)
+//            continue;
 
         //connect to clients slot
         connect(this,SIGNAL(write(QString)),iter.value()

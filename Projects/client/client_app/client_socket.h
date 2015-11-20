@@ -18,7 +18,7 @@ public:
     int writeToServer(QString data);
 private:
     QTcpSocket socket;
-    QString playerName;
+    QString playerName, tmpName;
     bool firstConnection;
 public slots:
     void connected();

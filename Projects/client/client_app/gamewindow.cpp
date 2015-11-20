@@ -77,9 +77,6 @@ void GameWindow::serverSendMessage(QString data)
         //
         break;
     case leftGame:
-//        EnemyTank tank;
-//        enemies.append(tank);
-//        enemies[0].mo
         //handle leftGame
         break;
     case fired:

@@ -107,6 +107,16 @@ void player_client::write(QString data)
     this->socket->write(data.toStdString().c_str());
     this->socket->flush();
 }
+QPoint player_client::getPosition() const
+{
+    return position;
+}
+
+void player_client::setPosition(const QPoint &value)
+{
+    position = value;
+}
+
 
 int player_client::sendMsgToClient(QByteArray msg)
 {

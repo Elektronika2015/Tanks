@@ -25,7 +25,8 @@ void TCPserver::incomingConnection(qintptr handle)
     player_client *client = new player_client(this,this);
     connect(client,SIGNAL(playerConnected(QString,player_client*)),
             this,SLOT(firstConnectionRequest(QString,player_client*)));
-    connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
+    connect(client,SIGNAL(clientDisconnected(QString)),
+            this,SLOT(clientDisconnected(QString)));
     client->setSocket(handle);
 }
 
@@ -35,30 +36,102 @@ void TCPserver::firstConnectionRequest(QString name, player_client* client)
     logger::log("Client already contains name result: " + QString::number(result));
 
     if(result == 0) //new name provided, success!
-    {
-        clients.insert(name,client);
+        handleFirstConnection(name, client);
 
-        //disconnect from firstConnection signal
-        disconnect(client,SIGNAL(playerConnected(QString,player_client*)),
-                   this,SLOT(firstConnectionRequest(QString,player_client*)));
-
-        //and connect to the regular one for the rest of the client existing.
-        connect(client,SIGNAL(clientSendData(QString,QString)),this,SLOT(clientHasWritten(QString,QString)));
-
-        //also connect to disconnect signal of client, so we can delete It from clients map
-        //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
-    }
     emit playerConnectionResult(result);
+}
+
+int TCPserver::handleFirstConnection(QString name, player_client *client)
+{
+    clients.insert(name,client);
+
+    //disconnect from firstConnection signal
+    disconnect(client,SIGNAL(playerConnected(QString,player_client*)),
+               this,SLOT(firstConnectionRequest(QString,player_client*)));
+
+    //and connect to the regular one for the rest of the client existing.
+    connect(client,SIGNAL(clientSendData(QString,QString)),this,SLOT(clientHasWritten(QString,QString)));
+
+
+    //also connect to disconnect signal of client, so we can delete It from clients map
+    //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
+
+    int x = rand()%MAP_EAST_EDGE + MAP_WEST_EDGE;
+    int y = rand()%MAP_NORTH_EDGE + MAP_SOUTH_EDGE;
+    int tankDirection = rand() % 1 + 4;
+    standardTankInfo info;
+    info.name = name;
+    info.position = QPoint(x,y);
+    info.tankActivity = joined;
+    info.tankDirection = (direction)tankDirection;
+    client->setPosition(info.position);
+
+    QString data;
+    messageManager::createMessage(info,data);
+    sendMessageToClients(data);
+    logger::log("Server sends data in handle first connection: "+data);
+}
+
+int TCPserver::handleClientLeftGame(QString name)
+{
+    QString message;
+    messageManager::createPlayerLeftGameMessage(name, message);
+    sendMessageToClients(message);
+}
+
+int TCPserver::handleClientMoved(standardTankInfo info, QString message)
+{
+    if(checkForCollision(info))
+    {
+        //TODO: update client
+        sendMessageToClients(message);
+    }
+}
+
+int TCPserver::sendMessageToClients(QString data)
+{
+    notifyClientsTask *task = new notifyClientsTask (&this->clients,data,"tmp");
+    task->setAutoDelete(true);
+    QThreadPool::globalInstance()->start(task);
+}
+
+int TCPserver::checkForCollision(standardTankInfo info)
+{
+    int x = info.position.x();
+    int y = info.position.y();
+
+    QMapIterator<QString, player_client*> iter(*clients);
+    for(int i = 0; i<clients->count(); i++)
+    {
+        iter.next();
+        QPoint pos = iter.value()->getPosition();
+
+        if(x == pos.x())
+        {
+
+        }
+        else if(y == pos.y())
+        {
+
+        }
+    }
+    return true; //found collision
 }
 
 void TCPserver::clientHasWritten(QString data, QString name)
 {
-    taskFactory factory(this);
-    QRunnable* task = factory.createTask(data, name);
-    if(task != NULL)
-        QThreadPool::globalInstance()->start(task);
-    else
-        logger::log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
+    standardTankInfo info;
+    messageManager::parseMessage(data,info);
+    if(info.tankActivity == moved)
+        handleClientMoved(info,data);
+
+
+//    taskFactory factory(this);
+//    QRunnable* task = factory.createTask(data, name);
+//    if(task != NULL)
+//        QThreadPool::globalInstance()->start(task);
+//    else
+//        logger::log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
 }
 
 void TCPserver::clientDisconnected(QString name)
@@ -87,18 +160,7 @@ void TCPserver::clientDisconnected(QString name)
         return;
     }
     else
-    {
-        logger::log(name + "have left the game.");
-        clientHasWritten(CLIENT_DISCONNECTED_TXT,name);
-        taskFactory factory(this);
-        QRunnable* task = factory.createTask(CLIENT_DISCONNECTED_TXT, name);
-        if(task != NULL)
-            QThreadPool::globalInstance()->start(task);
-        else
-            logger::log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + CLIENT_DISCONNECTED_TXT);
-
-        //should update all other clients now.
-    }
+        handleClientLeftGame(name);
 }
 
 QHostAddress TCPserver::getServerAddress() const
