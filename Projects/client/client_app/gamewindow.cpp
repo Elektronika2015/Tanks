@@ -8,6 +8,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connectWindowPointer(parent)
 
 {
+        logger::setLogToqDebug(true);
     ui->setupUi(this);
     battleItemsContainer.setSceneRect(MAP_WEST_EDGE,MAP_NORTH_EDGE,(-MAP_WEST_EDGE)+MAP_EAST_EDGE,(-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE);
     battleItemsContainer.setBackgroundBrush(Qt::black);
@@ -27,6 +28,9 @@ GameWindow::GameWindow(QWidget *parent) :
     battleItemsContainer.addLine(BottomLine,mypen);
     setCentralWidget(&battlefield);
 
+//    QString massage;
+//    makeNewPositionMSG(ourPlayer.pos(),massage);
+//    sendToServer(massage);
 
 
 

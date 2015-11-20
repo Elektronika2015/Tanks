@@ -25,6 +25,7 @@ void ConnectWindow::on_connectButton_clicked()
 {
     //connectionAcceptedSlot();
 
+
     socket.connectToServer(ui->serverAddresLineEdit->text()
                          ,ui->serverPortLineEdit->text()
                          ,ui->nameLineEdit->text());

@@ -5,7 +5,6 @@
 #include "gamewindow.h"
 #include "client_socket.h"
 #include <QMessageBox>
-
 namespace Ui {
 class ConnectWindow;
 

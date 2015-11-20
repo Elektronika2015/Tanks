@@ -4,7 +4,7 @@ Ball::Ball(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setVisible(false);
-    logger::setLogToqDebug(true);
+
 
 }
 
@@ -62,9 +62,6 @@ bool Ball::checkEdges()
 {
     if((ballCoordinateX >= MAP_EAST_EDGE) || (ballCoordinateX <= MAP_WEST_EDGE) || (ballCoordinateY<=MAP_NORTH_EDGE) || (ballCoordinateY >= MAP_SOUTH_EDGE))
     {
-        logger::log(QVariant(ballCoordinateX).toString());
-        logger::log(" ");
-        logger::log(QVariant(ballCoordinateY).toString());
         setVisible(false);
         return true;
 

@@ -7,6 +7,8 @@
 #include <QKeyEvent>
 #include "logger.h"
 #include "client_socket.h"
+#include "messagemanager.h"
+#include "common_codes.h"
 
 namespace Ui {
 class GameWindow;
@@ -29,7 +31,6 @@ private:
     QWidget *connectWindowPointer;
     client_socket *socketPointer;
     Ui::GameWindow *ui;
-
     void sendToServer(QString data){socketPointer->writeToServer(data);}
 
 
