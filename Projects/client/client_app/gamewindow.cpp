@@ -71,6 +71,7 @@ void GameWindow::serverSendMessage(QString data)
 
         break;
     case joined:
+
         //handle joined
         //dodaj do listy
         //

@@ -12,19 +12,22 @@ class EnemyTank: public QGraphicsItem
 public:
 
     direction tankDirection;
-    int coordinateX;
-    int coordinateY;
     Ball bullet;
     EnemyTank(QGraphicsItem *parent =NULL, QPoint coords = QPoint(0,0));
-    bool check_map_edges(direction dir);
 
     QRectF boundingRect() const;
+    void setPosition(standardTankInfo info);
+    QString getName() const;
+    void setName(const QString &value);
+    void setTankDirection(direction dir);
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
-    //QTimer timer;
+    QString name;
+
 private slots:
-    void shoot();
+
 
 signals:
     void sendMessage(QString data);
