@@ -7,6 +7,9 @@
 #include <QKeyEvent>
 #include "logger.h"
 #include "client_socket.h"
+#include "enemytank.h"
+#include "messagemanager.h"
+#include <QList>
 
 namespace Ui {
 class GameWindow;
@@ -19,20 +22,30 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = 0);
     ~GameWindow();
-    void setSocketPointer(client_socket * socketAdress){socketPointer=socketAdress;}
+    void setSocketPointer(client_socket * socketAdress);
+
+
+    void setTankName(QString name);
 
 private:
     QGraphicsScene battleItemsContainer;
     QGraphicsView battlefield;
     TankModel ourPlayer;
+    messageManager messenger;
+    QList<EnemyTank> enemies;
 
     QWidget *connectWindowPointer;
     client_socket *socketPointer;
     Ui::GameWindow *ui;
 
-    void sendToServer(QString data){socketPointer->writeToServer(data);}
+    void sendToServer(QString data)
+    {
+        socketPointer->writeToServer(data);
+    }
 
-
+private slots:
+    void serverSendMessage(QString data);
+    void ourPlayerMessage(standardTankInfo info);
 
 
 

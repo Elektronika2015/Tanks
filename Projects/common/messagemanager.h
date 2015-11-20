@@ -10,13 +10,7 @@
 #include <QPoint>
 
 
-struct standardTankInfo
-{
-    QPoint position;
-    direction tankDirection;
-    QString name;
-    activity tankActivity;
-};
+
 
 
 //     [name]nazwa[/name][what]co_zrobil[/what][position]pozycja[/position][direction]kierunek[/direction]
@@ -32,6 +26,9 @@ public:
     static int createTankDestroyedMessage(QPoint position, direction tankDirection, QString name, QString& dst);
     static int createPlayerJoinedMessage(QString name, QString &dst);
     static int createPlayerLeftGameMessage(QString name, QString &dst);
+
+
+    static int createMessage(standardTankInfo info, QString &dst);
 
     static int parseMessage(QString message, standardTankInfo &dst);
 

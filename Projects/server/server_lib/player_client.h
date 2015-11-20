@@ -16,6 +16,7 @@ class player_client : public QObject
     Q_OBJECT
 public:
     explicit player_client(QObject *parent = 0,TCPserver *serv = 0);
+    ~player_client();
     void setSocket(int Descriptor);
     QString getName() const;
     void setName(const QString &value);
@@ -37,8 +38,9 @@ public slots:
 
 private:
     QTcpSocket *socket;
-    QString name;
+    QString name, tmpName;
     int descriptor;
+    int goodNameProvided;
     TCPserver *server;
 
     int sendMsgToClient(QByteArray msg);

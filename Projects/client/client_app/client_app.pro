@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     gamewindow.cpp \
     tankmodel.cpp \
     ball.cpp \
-    client_socket.cpp
+    client_socket.cpp \
+    enemytank.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
     gamewindow.h \
     tankmodel.h \
     ball.h \
-    client_socket.h
+    client_socket.h \
+    enemytank.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \

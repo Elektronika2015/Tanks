@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    win = new ConnectWindow(this);
+    win->hide();
 }
 
 MainWindow::~MainWindow()
@@ -16,14 +18,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::back()
 {
-    delete win;
+    //delete win;
+    win->hide();
     ui->centralWidget->show();
 
 }
 
 void MainWindow::on_joinToGameButton_clicked()
 {
-    win = new ConnectWindow(this);
+
     win->show();
     ui->centralWidget->hide();
 }

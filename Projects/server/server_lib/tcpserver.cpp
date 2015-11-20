@@ -25,6 +25,7 @@ void TCPserver::incomingConnection(qintptr handle)
     player_client *client = new player_client(this,this);
     connect(client,SIGNAL(playerConnected(QString,player_client*)),
             this,SLOT(firstConnectionRequest(QString,player_client*)));
+    connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
     client->setSocket(handle);
 }
 
@@ -45,7 +46,7 @@ void TCPserver::firstConnectionRequest(QString name, player_client* client)
         connect(client,SIGNAL(clientSendData(QString,QString)),this,SLOT(clientHasWritten(QString,QString)));
 
         //also connect to disconnect signal of client, so we can delete It from clients map
-        connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
+        //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
     }
     emit playerConnectionResult(result);
 }
@@ -62,10 +63,19 @@ void TCPserver::clientHasWritten(QString data, QString name)
 
 void TCPserver::clientDisconnected(QString name)
 {
-    QMutex mutex;
-    mutex.lock();
+
+    //QMutex mutex;
+    //mutex.lock();
+    if(name.contains("noname"))
+        return;
+
+    disconnect(clients.find(name).value(),SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
+    disconnect(clients.find(name).value(),SIGNAL(clientSendData(QString,QString)),this,SLOT(clientHasWritten(QString,QString)));
+    disconnect(clients.find(name).value(),SIGNAL(playerConnected(QString,player_client*)),
+               this,SLOT(firstConnectionRequest(QString,player_client*)));
+
     int result = clients.remove(name);
-    mutex.unlock();
+    //mutex.unlock();
     if(result == 0)
     {
         logger::log("Specified client was not found in clients. Possible error. Clients name: " + name);
@@ -79,7 +89,7 @@ void TCPserver::clientDisconnected(QString name)
     else
     {
         logger::log(name + "have left the game.");
-        //clientHasWritten(CLIENT_DISCONNECTED_TXT,name);
+        clientHasWritten(CLIENT_DISCONNECTED_TXT,name);
         taskFactory factory(this);
         QRunnable* task = factory.createTask(CLIENT_DISCONNECTED_TXT, name);
         if(task != NULL)

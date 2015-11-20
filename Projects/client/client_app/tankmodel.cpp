@@ -4,6 +4,7 @@
 TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
+    name = "noname";
     tankDirection =north;
 }
 
@@ -20,20 +21,36 @@ void TankModel::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->drawPixmap(0,0, QPixmap(":/Graphics/tank1.png"));
 }
+QString TankModel::getName() const
+{
+    return name;
+}
+
+void TankModel::setName(const QString &value)
+{
+    name = value;
+}
+
 
 void TankModel::keyPressEvent(QKeyEvent *event)
 {
-   switch(event->key())
-   {
-   case Qt::Key_Right:
+    standardTankInfo info;
+
+    switch(event->key())
+    {
+    case Qt::Key_Right:
         setRotation(90);
         tankDirection=east;
         if(!(check_map_edges(east))) break;
         setTransformOriginPoint(20,25);
-        moveBy(5,0);
+        //moveBy(5,0);
         coordinateX=pos().x();
         coordinateY=pos().y();
 
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
 
         break;
 
@@ -42,9 +59,13 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         tankDirection=west;
         if(!(check_map_edges(west))) break;
         setTransformOriginPoint(20,25);
-        moveBy(-5,0);
+        //moveBy(-5,0);
         coordinateX=pos().x();
         coordinateY=pos().y();
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
 
@@ -53,9 +74,13 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         tankDirection=north;
         if(!(check_map_edges(north))) break;
         setTransformOriginPoint(20,25);
-        moveBy(0,-5);
+        //moveBy(0,-5);
         coordinateX=pos().x();
         coordinateY=pos().y();
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
 
@@ -64,19 +89,27 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         if(!(check_map_edges(south))) break;
         tankDirection=south;
         setTransformOriginPoint(20,25);
-        moveBy(0,5);
+        //moveBy(0,5);
         coordinateX=pos().x();
         coordinateY=pos().y();
-
+        info.name=this->name;
+        info.position = this->pos().toPoint();
+        info.tankDirection = tankDirection;
+        info.tankActivity = moved;
         break;
 
    case Qt::Key_Space:
-       if(timer.isActive())break;
-       bullet.setBullet(tankDirection,coordinateX,coordinateY);
-       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
-       timer.start(18);
-		break;
+//       if(timer.isActive())break;
+//       bullet.setBullet(tankDirection,coordinateX,coordinateY);
+//       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
+//       timer.start(18);
+       info.name=this->name;
+       info.position = this->pos().toPoint();
+       info.tankDirection = tankDirection;
+       info.tankActivity = fired;
+        break;
    }
+    emit messageSignal(info);
 }
 
 

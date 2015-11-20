@@ -168,6 +168,11 @@ int messageManager::createPlayerLeftGameMessage(QString name, QString &dst)
     return createDefaultPartOfMessage(leftGame,QPoint(1,1),north,name,dst);
 }
 
+int messageManager::createMessage(standardTankInfo info, QString &dst)
+{
+    return createDefaultPartOfMessage(info.tankActivity,info.position,info.tankDirection,info.name,dst);
+}
+
 int messageManager::parseMessageForType(QString message, QString type, standardTankInfo& info)
 {
     int badRet=1;
