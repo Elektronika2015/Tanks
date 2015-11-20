@@ -34,7 +34,7 @@ private:
     QGraphicsView battlefield;
     TankModel ourPlayer;
     messageManager messenger;
-    QList<EnemyTank> enemies;
+    QList<EnemyTank*> enemies;
 
     QWidget *connectWindowPointer;
     client_socket *socketPointer;

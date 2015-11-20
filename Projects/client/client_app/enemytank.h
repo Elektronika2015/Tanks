@@ -12,8 +12,8 @@ class EnemyTank: public QGraphicsItem
 public:
 
     direction tankDirection;
-    Ball bullet;
-    EnemyTank(QGraphicsItem *parent =NULL, QPoint coords = QPoint(0,0));
+   // Ball bullet;
+    EnemyTank(QGraphicsItem *parent =NULL);
 
     QRectF boundingRect() const;
     void setPosition(standardTankInfo info);

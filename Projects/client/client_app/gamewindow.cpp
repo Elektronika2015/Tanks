@@ -57,6 +57,7 @@ void GameWindow::setTankName(QString name)
 void GameWindow::serverSendMessage(QString data)
 {
     standardTankInfo info;
+    EnemyTank *enemy=new EnemyTank;
     this->messenger.parseMessage(data,info);
     switch(info.tankActivity)
     {
@@ -68,18 +69,23 @@ void GameWindow::serverSendMessage(QString data)
         {
             ourPlayer.setPosition(info);
         }
+        //znajdowac po nazwie i przesuwac
 
         break;
     case joined:
-        EnemyTank enemy;
-        enemy.setName(info.name);
-        enemy.setPosition(info);
+
+        enemy->setName(info.name);
+        enemy->setPosition(info);
         enemies.append(enemy);
+        battleItemsContainer.addItem(enemy);
+
         //handle joined
         //dodaj do listy
         //
         break;
     case leftGame:
+        //index of skorzystac bo Michał prosił
+        //battleItemsContainer.removeItem();
 
         break;
     case fired:
