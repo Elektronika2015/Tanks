@@ -71,16 +71,16 @@ void GameWindow::serverSendMessage(QString data)
 
         break;
     case joined:
-
+        EnemyTank enemy;
+        enemy.setName(info.name);
+        enemy.setPosition(info);
+        enemies.append(enemy);
         //handle joined
         //dodaj do listy
         //
         break;
     case leftGame:
-//        EnemyTank tank;
-//        enemies.append(tank);
-//        enemies[0].mo
-        //handle leftGame
+
         break;
     case fired:
         //handle fired

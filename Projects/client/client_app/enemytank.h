@@ -3,7 +3,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QPoint>
-#include "ball.h"
+//#include "ball.h"
 #include "common_codes.h"
 
 class EnemyTank: public QGraphicsItem
