@@ -6,6 +6,7 @@ TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
     setFlag(QGraphicsItem::ItemIsFocusable);
     name = "noname";
     tankDirection =north;
+    setPos(1,1);
     setTransformOriginPoint(20,25);
 }
 
