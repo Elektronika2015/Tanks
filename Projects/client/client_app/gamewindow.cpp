@@ -69,7 +69,16 @@ void GameWindow::serverSendMessage(QString data)
         {
             ourPlayer.setPosition(info);
         }
-        //znajdowac po nazwie i przesuwac
+        else
+        {
+            for(int i=0; i<=enemies.size();i++)
+            {
+                if(info.name==enemies[i]->getName())
+                {
+                    enemies[i]->setPosition(info);
+                }
+            }
+        }
 
         break;
     case joined:
@@ -84,6 +93,15 @@ void GameWindow::serverSendMessage(QString data)
         //
         break;
     case leftGame:
+        for(int i=0; i<=enemies.size();i++)
+        {
+            if(info.name==enemies[i]->getName())
+            {
+                battleItemsContainer.removeItem(enemies[i]);
+                delete enemies[i];
+                enemies.removeAt(i);
+            }
+        }
         //index of skorzystac bo Michał prosił
         //battleItemsContainer.removeItem();
 
