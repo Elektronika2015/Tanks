@@ -51,7 +51,7 @@ void taskFactoryTests::test_createTask()
 
     QRunnable* task = factory.createTask(NEW_POSITION_TXT,client.getName());
 
-    QCOMPARE(dynamic_cast<positionChangedTask*>(task) != NULL, 1);
+    QCOMPARE(dynamic_cast<notifyClientsTask*>(task) != NULL, 1);
 }
 
 void taskFactoryTests::test_parseData()

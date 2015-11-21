@@ -81,6 +81,9 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
         info.name=this->name;
         info.position = this->pos().toPoint();
+
+        info.position.rx() += 5;
+
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
 
@@ -91,6 +94,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         if(!(check_map_edges(west))) break;
         info.name=this->name;
         info.position = this->pos().toPoint();
+        info.position.rx() -= 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
         break;
@@ -101,6 +105,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         if(!(check_map_edges(north))) break;
         info.name=this->name;
         info.position = this->pos().toPoint();
+        info.position.ry() -= 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
         break;
@@ -111,6 +116,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         if(!(check_map_edges(south))) break;
         info.name=this->name;
         info.position = this->pos().toPoint();
+        info.position.ry() += 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
         break;

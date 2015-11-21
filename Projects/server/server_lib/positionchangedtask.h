@@ -7,11 +7,11 @@
 
 class player_client;
 
-class positionChangedTask :public QObject, public QRunnable
+class notifyClientsTask :public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    positionChangedTask(QMap<QString, player_client*>* clientsPTR, QString data, QString name);
+    notifyClientsTask(QMap<QString, player_client*>* clientsPTR, QString data, QString name);
 
 signals:
     void Result(int Number);

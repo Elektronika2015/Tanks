@@ -32,11 +32,11 @@
  */
 static int qPointToByteArray(QPoint src, QByteArray& dst)
 {
-    if(src.isNull())
-        return 1;
+//    if(src.isNull())
+//        return 1;
 
-    if(src.x() < 0 || src.y() < 0)
-        return 1;
+//    if(src.x() < 0 || src.y() < 0)
+//        return 1;
 
     QString tmp = QString::number(src.x()) +":"+ QString::number(src.y());
     dst = tmp.toStdString().c_str();
@@ -52,7 +52,7 @@ static int qPointToByteArray(QPoint src, QByteArray& dst)
  */
 static int byteArrayToQPoint(QByteArray src, QPoint& dst)
 {
-    if(src.isEmpty() || src.isNull())
+    if(src.isEmpty())// || src.isNull())
         return 1;
 
     QString tmp;
@@ -104,8 +104,8 @@ static int makeNewPositionMSG(QPoint pos, QByteArray& dst)
     if(pos.isNull())
         return 1;
 
-    if(pos.x() < 0 || pos.y() < 0)
-        return 1;
+//    if(pos.x() < 0 || pos.y() < 0)
+//        return 1;
 
     dst=NEW_POSITION_TXT;
 
@@ -190,7 +190,8 @@ enum activity
     moved,
     fired,
     tankDestroyed,
-    shown    //shown on map, after joined and destroyed
+    shown,    //shown on map, after joined and destroyed
+    inGame
 };
 
 #define JOIN_ACTIVITY_STRING "joined"
@@ -199,6 +200,7 @@ enum activity
 #define FIRED_ACTIVITY_STRING "fired"
 #define DESTROYED_ACTIVITY_STRING "destroyed"
 #define SHOWN_ACTIVITY_STRING "shown"
+#define IN_GAME_ACTIVITY_STRING "inGame"
 
 static int activityToString(activity act, QString &dst)
 {
@@ -222,6 +224,9 @@ static int activityToString(activity act, QString &dst)
     case shown:
         dst=SHOWN_ACTIVITY_STRING;
         break;
+    case inGame:
+        dst=IN_GAME_ACTIVITY_STRING;
+        break;
     default:
         return 1;
     }
@@ -242,6 +247,8 @@ static int stringToActivity(QString actString, activity &dst)
         dst = shown;
     else if(actString == DESTROYED_ACTIVITY_STRING)
         dst=tankDestroyed;
+    else if(actString == IN_GAME_ACTIVITY_STRING)
+        dst=inGame;
     else
         return 1;
 

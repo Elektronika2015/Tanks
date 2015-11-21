@@ -5,6 +5,7 @@
 #include "common_codes.h"
 #include "logger.h"
 #include "tcpserver.h"
+#include "messagemanager.h"
 
 class TCPserver;
 class taskFactory
@@ -16,6 +17,7 @@ public:
 
 protected:
     TCPserver *server;
+
 
     int parseData(QString data);
 

@@ -1,12 +1,12 @@
 #include "messagemanager.h"
 
-QStringList messageManager::typeList;
+QStringList messageManager::typeList = QStringList()<<"name"<<"what"<<"posi"<<"dire";
 unsigned int messageManager::frontMarkerLen;
 unsigned int messageManager::endMarkerLen;
 
 messageManager::messageManager()
 {
-    typeList<<"name"<<"what"<<"posi"<<"dire";
+    //typeList<<"name"<<"what"<<"posi"<<"dire";
 }
 
 int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint position, direction tankDirection, QString name, QString &dst)
@@ -33,7 +33,7 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
             QString actString;
             if(activityToString(tankActivity,actString))
             {
-                logger::log("Could not translate direction to string.");
+                logger::log("Could not translate activity to string.");
                 return 1;
             }
             dst.append(actString);
@@ -69,9 +69,7 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
             break;
         }
         default:
-        {
             return 1;
-        }
         }
     }
     return 0;

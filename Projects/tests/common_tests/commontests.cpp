@@ -12,6 +12,8 @@ private slots:
     void test_getPosStringFromData();
     void test_directionToString();
     void test_activityToString();
+
+    void test_randomNumbers();
 };
 
 
@@ -229,6 +231,21 @@ void commonTests::test_activityToString()
 
 
 
+}
+
+void commonTests::test_randomNumbers()
+{
+    qsrand(QTime::currentTime().msec());
+    int x,y;
+    for(int i = 0; i<10,000 ; i++)
+    {
+        x = rand()%MAP_EAST_EDGE + MAP_WEST_EDGE;
+        y =rand()%MAP_NORTH_EDGE + MAP_SOUTH_EDGE;
+        QCOMPARE(x >= MAP_WEST_EDGE,true);
+        QCOMPARE(x <= MAP_EAST_EDGE,true);
+        QCOMPARE(x >= MAP_NORTH_EDGE,true);
+        QCOMPARE(x <= MAP_SOUTH_EDGE,true);
+    }
 }
 
 DECLARE_TEST(commonTests)

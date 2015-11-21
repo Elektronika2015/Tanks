@@ -47,6 +47,7 @@ private:
         socketPointer->writeToServer(data);
     }
 
+    void handleInGame(standardTankInfo info, QString message);
 private slots:
     void serverSendMessage(QString data);
     void ourPlayerMessage(standardTankInfo info);

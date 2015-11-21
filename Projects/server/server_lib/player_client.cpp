@@ -104,9 +104,35 @@ QTcpSocket *player_client::getSocket() const
 
 void player_client::write(QString data)
 {
-    this->socket->write(data.toStdString().c_str());
+    int result;
+    result = this->socket->write(data.toStdString().c_str());
+    if(result == -1)
+    {
+        logger::log("Could not write to client: "+name);
+        logger::log("Message: "+data);
+    }
     this->socket->flush();
 }
+direction player_client::getTankDirection() const
+{
+    return tankDirection;
+}
+
+void player_client::setTankDirection(const direction &value)
+{
+    tankDirection = value;
+}
+
+QPoint player_client::getPosition() const
+{
+    return position;
+}
+
+void player_client::setPosition(const QPoint &value)
+{
+    position = value;
+}
+
 
 int player_client::sendMsgToClient(QByteArray msg)
 {
