@@ -46,6 +46,7 @@ void ConnectWindow::connectionAcceptedSlot()
 {
     win= new GameWindow(this);
     win->setSocketPointer(&socket);
+    win->setTankName(socket.getPlayerName());
     ui->label_4->setText("ok");
     win->show();
     this->hide();

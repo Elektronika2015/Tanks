@@ -14,6 +14,7 @@ GameWindow::GameWindow(QWidget *parent) :
     battleItemsContainer.setBackgroundBrush(Qt::black);
     battleItemsContainer.addItem(&ourPlayer.bullet);
     battleItemsContainer.addItem(&ourPlayer);
+
     connect(&ourPlayer,SIGNAL(messageSignal(standardTankInfo)),
             this,SLOT(ourPlayerMessage(standardTankInfo)));
 
@@ -51,7 +52,19 @@ void GameWindow::setSocketPointer(client_socket *socketAdress)
 
 void GameWindow::setTankName(QString name)
 {
-    //    ourPlayer.se
+    ourPlayer.setName(name);
+}
+
+void GameWindow::handleInGame(standardTankInfo info, QString message)
+{
+    if(info.name ==ourPlayer.getName())
+        return;
+    EnemyTank *enemy=new EnemyTank;
+    enemy->setName(info.name);
+    enemy->setPosition(info);
+    enemies.append(enemy);
+    battleItemsContainer.addItem(enemy);
+    enemy->show();
 }
 
 void GameWindow::serverSendMessage(QString data)
@@ -71,7 +84,7 @@ void GameWindow::serverSendMessage(QString data)
         }
         else
         {
-            for(int i=0; i<=enemies.size();i++)
+            for(int i=0; i<enemies.size();i++)
             {
                 if(info.name==enemies[i]->getName())
                 {
@@ -82,18 +95,26 @@ void GameWindow::serverSendMessage(QString data)
 
         break;
     case joined:
-
-        enemy->setName(info.name);
-        enemy->setPosition(info);
-        enemies.append(enemy);
-        battleItemsContainer.addItem(enemy);
+        if(info.name ==ourPlayer.getName())
+        {
+            ourPlayer.setName(info.name);
+            ourPlayer.setPosition(info);
+            ourPlayer.show();
+        }
+        else
+        {
+            enemy->setName(info.name);
+            enemy->setPosition(info);
+            enemies.append(enemy);
+            battleItemsContainer.addItem(enemy);
+        }
 
         //handle joined
         //dodaj do listy
         //
         break;
     case leftGame:
-        for(int i=0; i<=enemies.size();i++)
+        for(int i=0; i<enemies.size();i++)
         {
             if(info.name==enemies[i]->getName())
             {
@@ -113,6 +134,9 @@ void GameWindow::serverSendMessage(QString data)
         break;
     case shown:
         //handle shown
+        break;
+    case inGame:
+        handleInGame(info,data);
         break;
     default:
         logger::log("Should not happened, GameWindow::serverSendMessage");

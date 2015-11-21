@@ -16,6 +16,8 @@ public:
 
     void connectToServer(QString address, QString port, QString name);
     int writeToServer(QString data);
+    QString getPlayerName() const;
+
 private:
     QTcpSocket socket;
     QString playerName, tmpName;

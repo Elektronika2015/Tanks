@@ -27,6 +27,11 @@ int client_socket::writeToServer(QString data)
     socket.write(data.toStdString().c_str());
     socket.flush();
 }
+QString client_socket::getPlayerName() const
+{
+    return playerName;
+}
+
 
 void client_socket::connected()
 {

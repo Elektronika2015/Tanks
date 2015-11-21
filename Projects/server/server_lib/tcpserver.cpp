@@ -56,20 +56,49 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
     //also connect to disconnect signal of client, so we can delete It from clients map
     //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
 
-    int x = rand()%MAP_EAST_EDGE + MAP_WEST_EDGE;
-    int y = rand()%MAP_NORTH_EDGE + MAP_SOUTH_EDGE;
+    int x = rand()%MAP_EAST_EDGE + 100;
+    int y = rand()%MAP_NORTH_EDGE + 100;
+
     int tankDirection = rand() % 1 + 4;
     standardTankInfo info;
     info.name = name;
     info.position = QPoint(x,y);
     info.tankActivity = joined;
     info.tankDirection = (direction)tankDirection;
+    client->setName(name);
     client->setPosition(info.position);
+    client->setTankDirection(info.tankDirection);
 
     QString data;
     messageManager::createMessage(info,data);
     sendMessageToClients(data);
     logger::log("Server sends data in handle first connection: "+data);
+    if(clients.count() > 1)
+    {
+        connect(this,SIGNAL(writeInGameMSG(QString)),client
+                ,SLOT(write(QString)),Qt::QueuedConnection);
+
+        QMapIterator<QString, player_client*> iter(clients);
+        for(int i = 0; i<clients.count(); i++)
+        {
+            iter.next();
+
+            //reciever in not in inGame state yet!
+            if(iter.value()->getName() == name)
+                continue;
+
+            standardTankInfo info;
+            info.name = iter.value()->getName();
+            info.position = iter.value()->getPosition();
+            info.tankDirection = iter.value()->getTankDirection();
+            info.tankActivity = inGame;
+
+            QString inGameMSG;
+            messageManager::createMessage(info,inGameMSG);
+            emit writeInGameMSG(inGameMSG);
+        }
+        disconnect(this,SIGNAL(writeInGameMSG(QString)),client,SLOT(write(QString)));
+    }
 }
 
 int TCPserver::handleClientLeftGame(QString name)
@@ -100,8 +129,8 @@ int TCPserver::checkForCollision(standardTankInfo info)
     int x = info.position.x();
     int y = info.position.y();
 
-    QMapIterator<QString, player_client*> iter(*clients);
-    for(int i = 0; i<clients->count(); i++)
+    QMapIterator<QString, player_client*> iter(clients);
+    for(int i = 0; i<clients.count(); i++)
     {
         iter.next();
         QPoint pos = iter.value()->getPosition();

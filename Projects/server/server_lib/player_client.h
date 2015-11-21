@@ -25,6 +25,9 @@ public:
     QPoint getPosition() const;
     void setPosition(const QPoint &value);
 
+    direction getTankDirection() const;
+    void setTankDirection(const direction &value);
+
 signals:
     void error(QTcpSocket::SocketError socketError);
     void playerConnected(QString name, player_client* client);
@@ -46,6 +49,7 @@ private:
     int goodNameProvided;
     TCPserver *server;
     QPoint position;
+    direction tankDirection;
 
     int sendMsgToClient(QByteArray msg);
 };

@@ -43,6 +43,8 @@ protected:
 signals:
     void playerConnectionResult(int result);
 
+    void writeInGameMSG(QString data);
+
 public slots:
     void firstConnectionRequest(QString name, player_client *client);
     void clientHasWritten(QString data, QString name);

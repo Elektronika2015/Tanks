@@ -33,7 +33,7 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
             QString actString;
             if(activityToString(tankActivity,actString))
             {
-                logger::log("Could not translate direction to string.");
+                logger::log("Could not translate activity to string.");
                 return 1;
             }
             dst.append(actString);
