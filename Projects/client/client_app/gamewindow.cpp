@@ -57,6 +57,7 @@ void GameWindow::setTankName(QString name)
 void GameWindow::serverSendMessage(QString data)
 {
     standardTankInfo info;
+    EnemyTank *enemy=new EnemyTank;
     this->messenger.parseMessage(data,info);
     switch(info.tankActivity)
     {
@@ -68,16 +69,41 @@ void GameWindow::serverSendMessage(QString data)
         {
             ourPlayer.setPosition(info);
         }
+        else
+        {
+            for(int i=0; i<=enemies.size();i++)
+            {
+                if(info.name==enemies[i]->getName())
+                {
+                    enemies[i]->setPosition(info);
+                }
+            }
+        }
 
         break;
     case joined:
+
+        enemy->setName(info.name);
+        enemy->setPosition(info);
+        enemies.append(enemy);
+        battleItemsContainer.addItem(enemy);
 
         //handle joined
         //dodaj do listy
         //
         break;
     case leftGame:
-        //handle leftGame
+        for(int i=0; i<=enemies.size();i++)
+        {
+            if(info.name==enemies[i]->getName())
+            {
+                battleItemsContainer.removeItem(enemies[i]);
+                delete enemies[i];
+                enemies.removeAt(i);
+            }
+        }
+        //index of skorzystac bo Michał prosił
+        //battleItemsContainer.removeItem();
         break;
     case fired:
         //handle fired

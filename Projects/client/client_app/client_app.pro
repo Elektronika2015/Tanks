@@ -21,7 +21,6 @@ SOURCES += main.cpp\
     client_socket.cpp \
     mytank.cpp \
     enemytank.cpp
-    enemytank.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
@@ -30,7 +29,6 @@ HEADERS  += mainwindow.h \
     ball.h \
     client_socket.h \
     mytank.h \
-    enemytank.h
     enemytank.h
 
 FORMS    += mainwindow.ui \

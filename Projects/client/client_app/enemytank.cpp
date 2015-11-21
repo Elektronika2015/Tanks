@@ -1,10 +1,9 @@
 #include "enemytank.h"
 
-EnemyTank::EnemyTank(QGraphicsItem*parent, QPoint coords):
+EnemyTank::EnemyTank(QGraphicsItem*parent):
     QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
-    this->setPos(coords);
 }
 
 QRectF EnemyTank::boundingRect() const
