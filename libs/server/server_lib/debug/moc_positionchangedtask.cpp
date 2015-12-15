@@ -18,31 +18,31 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_positionChangedTask_t {
+struct qt_meta_stringdata_notifyClientsTask_t {
     QByteArrayData data[6];
-    char stringdata0[46];
+    char stringdata0[44];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_positionChangedTask_t, stringdata0) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_notifyClientsTask_t, stringdata0) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_positionChangedTask_t qt_meta_stringdata_positionChangedTask = {
+static const qt_meta_stringdata_notifyClientsTask_t qt_meta_stringdata_notifyClientsTask = {
     {
-QT_MOC_LITERAL(0, 0, 19), // "positionChangedTask"
-QT_MOC_LITERAL(1, 20, 6), // "Result"
-QT_MOC_LITERAL(2, 27, 0), // ""
-QT_MOC_LITERAL(3, 28, 6), // "Number"
-QT_MOC_LITERAL(4, 35, 5), // "write"
-QT_MOC_LITERAL(5, 41, 4) // "data"
+QT_MOC_LITERAL(0, 0, 17), // "notifyClientsTask"
+QT_MOC_LITERAL(1, 18, 6), // "Result"
+QT_MOC_LITERAL(2, 25, 0), // ""
+QT_MOC_LITERAL(3, 26, 6), // "Number"
+QT_MOC_LITERAL(4, 33, 5), // "write"
+QT_MOC_LITERAL(5, 39, 4) // "data"
 
     },
-    "positionChangedTask\0Result\0\0Number\0"
-    "write\0data"
+    "notifyClientsTask\0Result\0\0Number\0write\0"
+    "data"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_positionChangedTask[] = {
+static const uint qt_meta_data_notifyClientsTask[] = {
 
  // content:
        7,       // revision
@@ -66,10 +66,10 @@ static const uint qt_meta_data_positionChangedTask[] = {
        0        // eod
 };
 
-void positionChangedTask::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void notifyClientsTask::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        positionChangedTask *_t = static_cast<positionChangedTask *>(_o);
+        notifyClientsTask *_t = static_cast<notifyClientsTask *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->Result((*reinterpret_cast< int(*)>(_a[1]))); break;
@@ -80,42 +80,42 @@ void positionChangedTask::qt_static_metacall(QObject *_o, QMetaObject::Call _c, 
         int *result = reinterpret_cast<int *>(_a[0]);
         void **func = reinterpret_cast<void **>(_a[1]);
         {
-            typedef void (positionChangedTask::*_t)(int );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&positionChangedTask::Result)) {
+            typedef void (notifyClientsTask::*_t)(int );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&notifyClientsTask::Result)) {
                 *result = 0;
             }
         }
         {
-            typedef void (positionChangedTask::*_t)(QString );
-            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&positionChangedTask::write)) {
+            typedef void (notifyClientsTask::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&notifyClientsTask::write)) {
                 *result = 1;
             }
         }
     }
 }
 
-const QMetaObject positionChangedTask::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_positionChangedTask.data,
-      qt_meta_data_positionChangedTask,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObject notifyClientsTask::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_notifyClientsTask.data,
+      qt_meta_data_notifyClientsTask,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
-const QMetaObject *positionChangedTask::metaObject() const
+const QMetaObject *notifyClientsTask::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *positionChangedTask::qt_metacast(const char *_clname)
+void *notifyClientsTask::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_positionChangedTask.stringdata0))
-        return static_cast<void*>(const_cast< positionChangedTask*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_notifyClientsTask.stringdata0))
+        return static_cast<void*>(const_cast< notifyClientsTask*>(this));
     if (!strcmp(_clname, "QRunnable"))
-        return static_cast< QRunnable*>(const_cast< positionChangedTask*>(this));
+        return static_cast< QRunnable*>(const_cast< notifyClientsTask*>(this));
     return QObject::qt_metacast(_clname);
 }
 
-int positionChangedTask::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int notifyClientsTask::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -133,14 +133,14 @@ int positionChangedTask::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void positionChangedTask::Result(int _t1)
+void notifyClientsTask::Result(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void positionChangedTask::write(QString _t1)
+void notifyClientsTask::write(QString _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);

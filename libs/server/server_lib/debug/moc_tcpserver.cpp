@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_TCPserver_t {
-    QByteArrayData data[11];
-    char stringdata0[132];
+    QByteArrayData data[12];
+    char stringdata0[147];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,19 +33,20 @@ QT_MOC_LITERAL(0, 0, 9), // "TCPserver"
 QT_MOC_LITERAL(1, 10, 22), // "playerConnectionResult"
 QT_MOC_LITERAL(2, 33, 0), // ""
 QT_MOC_LITERAL(3, 34, 6), // "result"
-QT_MOC_LITERAL(4, 41, 22), // "firstConnectionRequest"
-QT_MOC_LITERAL(5, 64, 4), // "name"
-QT_MOC_LITERAL(6, 69, 14), // "player_client*"
-QT_MOC_LITERAL(7, 84, 6), // "client"
-QT_MOC_LITERAL(8, 91, 16), // "clientHasWritten"
-QT_MOC_LITERAL(9, 108, 4), // "data"
-QT_MOC_LITERAL(10, 113, 18) // "clientDisconnected"
+QT_MOC_LITERAL(4, 41, 14), // "writeInGameMSG"
+QT_MOC_LITERAL(5, 56, 4), // "data"
+QT_MOC_LITERAL(6, 61, 22), // "firstConnectionRequest"
+QT_MOC_LITERAL(7, 84, 4), // "name"
+QT_MOC_LITERAL(8, 89, 14), // "player_client*"
+QT_MOC_LITERAL(9, 104, 6), // "client"
+QT_MOC_LITERAL(10, 111, 16), // "clientHasWritten"
+QT_MOC_LITERAL(11, 128, 18) // "clientDisconnected"
 
     },
     "TCPserver\0playerConnectionResult\0\0"
-    "result\0firstConnectionRequest\0name\0"
-    "player_client*\0client\0clientHasWritten\0"
-    "data\0clientDisconnected"
+    "result\0writeInGameMSG\0data\0"
+    "firstConnectionRequest\0name\0player_client*\0"
+    "client\0clientHasWritten\0clientDisconnected"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,28 +56,30 @@ static const uint qt_meta_data_TCPserver[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   34,    2, 0x06 /* Public */,
+       1,    1,   39,    2, 0x06 /* Public */,
+       4,    1,   42,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    2,   37,    2, 0x0a /* Public */,
-       8,    2,   42,    2, 0x0a /* Public */,
-      10,    1,   47,    2, 0x0a /* Public */,
+       6,    2,   45,    2, 0x0a /* Public */,
+      10,    2,   50,    2, 0x0a /* Public */,
+      11,    1,   55,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, QMetaType::QString,    5,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString, 0x80000000 | 6,    5,    7,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString,    9,    5,
-    QMetaType::Void, QMetaType::QString,    5,
+    QMetaType::Void, QMetaType::QString, 0x80000000 | 8,    7,    9,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,    5,    7,
+    QMetaType::Void, QMetaType::QString,    7,
 
        0        // eod
 };
@@ -88,15 +91,16 @@ void TCPserver::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->playerConnectionResult((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->firstConnectionRequest((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< player_client*(*)>(_a[2]))); break;
-        case 2: _t->clientHasWritten((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 3: _t->clientDisconnected((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->writeInGameMSG((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->firstConnectionRequest((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< player_client*(*)>(_a[2]))); break;
+        case 3: _t->clientHasWritten((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 4: _t->clientDisconnected((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 1:
+        case 2:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -111,6 +115,12 @@ void TCPserver::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
             typedef void (TCPserver::*_t)(int );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&TCPserver::playerConnectionResult)) {
                 *result = 0;
+            }
+        }
+        {
+            typedef void (TCPserver::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&TCPserver::writeInGameMSG)) {
+                *result = 1;
             }
         }
     }
@@ -141,13 +151,13 @@ int TCPserver::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }
@@ -157,5 +167,12 @@ void TCPserver::playerConnectionResult(int _t1)
 {
     void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void TCPserver::writeInGameMSG(QString _t1)
+{
+    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

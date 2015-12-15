@@ -4,6 +4,7 @@ EnemyTank::EnemyTank(QGraphicsItem*parent):
     QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
+    setTransformOriginPoint(20,25);
 }
 
 QRectF EnemyTank::boundingRect() const
