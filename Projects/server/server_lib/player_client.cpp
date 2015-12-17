@@ -30,13 +30,13 @@ void player_client::setSocket(int Descriptor)
 
 void player_client::firstConnection()
 {
-    logger::log("First connection occured for "+QString::number(descriptor));
+    logger l; l.log("First connection occured for "+QString::number(descriptor));
     QByteArray data = socket->readAll();
     if(data.isEmpty())
     {
         socket->write(NO_DATA_RECEIVED);
-        logger::log(socket->peerName()+ ":" + socket->peerPort() + "did not send any data. Possible Error!");
-        logger::log("Socket error: "+socket->errorString());
+        logger l; l.log(socket->peerName()+ ":" + socket->peerPort() + "did not send any data. Possible Error!");
+        l.log("Socket error: "+socket->errorString());
         emit(socket->error());
         return;
     }
@@ -46,8 +46,8 @@ void player_client::firstConnection()
 //        socket->flush();
 //        if(result == -1)
 //        {
-//            logger::log("Server was unable to write data to: " + socket->peerName()+ ":" + socket->peerPort());
-//            logger::log("Socket error: "+socket->errorString());
+//            logger l; l.log("Server was unable to write data to: " + socket->peerName()+ ":" + socket->peerPort());
+//            logger l; l.log("Socket error: "+socket->errorString());
 //            emit(socket->error());
 //            return;
 //        }
@@ -60,11 +60,11 @@ void player_client::firstConnection()
 
 void player_client::playerConnectedResult(int result)
 {
-    logger::log("player_client::playerConnectedResult function,   result value is: "+QString::number(result));
+    logger l; l.log("player_client::playerConnectedResult function,   result value is: "+QString::number(result));
     if(result == 0)
     {
         name = tmpName;
-        logger::log("Client " + QString::number(descriptor) + " with name: " + name + "have successfully connected");
+        logger l; l.log("Client " + QString::number(descriptor) + " with name: " + name + "have successfully connected");
 
         sendMsgToClient(CONNECTION_ACCEPTED);
 
@@ -74,14 +74,14 @@ void player_client::playerConnectedResult(int result)
     }
     else
     {
-        logger::log("Client " + QString::number(descriptor) + " provided name that is already in use.");
+        logger l; l.log("Client " + QString::number(descriptor) + " provided name that is already in use.");
         sendMsgToClient(NAME_ALREADY_EXISTS);
     }
 }
 
 void player_client::disconnected()
 {
-    logger::log(this->name + " disconnected");
+    logger l; l.log(this->name + " disconnected");
     socket->deleteLater();
     socket->disconnectFromHost();
     disconnect(socket,SIGNAL(readyRead()),this,SLOT(firstConnection()));
@@ -94,7 +94,7 @@ void player_client::disconnected()
 void player_client::readyRead()
 {
     QString data(this->socket->readAll());
-    logger::log(this->name + ": " + data);
+    logger l; l.log(this->name + ": " + data);
     emit clientSendData(data,this->name);
 }
 QTcpSocket *player_client::getSocket() const
@@ -108,8 +108,8 @@ void player_client::write(QString data)
     result = this->socket->write(data.toStdString().c_str());
     if(result == -1)
     {
-        logger::log("Could not write to client: "+name);
-        logger::log("Message: "+data);
+        logger l; l.log("Could not write to client: "+name);
+        l.log("Message: "+data);
     }
     this->socket->flush();
 }
@@ -136,12 +136,12 @@ void player_client::setPosition(const QPoint &value)
 
 int player_client::sendMsgToClient(QByteArray msg)
 {
-    logger::log("Trying to send msg: "+QString(msg)+ "to: "+QString::number(descriptor));
+    logger l; l.log("Trying to send msg: "+QString(msg)+ "to: "+QString::number(descriptor));
     int result = this->socket->write(msg);
     socket->flush();
     if(result == -1)
     {
-        logger::log("Failed to write to client: " + QString(descriptor));
+        logger l; l.log("Failed to write to client: " + QString(descriptor));
     }
     return result;
 }

@@ -35,10 +35,9 @@ int client::updatePosition()
 {
     QPoint point(1,0);
     QByteArray data;
-    logger::log("przed qpoint");
+
     int result = qPointToByteArray(point,data);
-    logger::log(data);
-    logger::log("po qpoint");
+
     socket.write(data);
 
     return true;

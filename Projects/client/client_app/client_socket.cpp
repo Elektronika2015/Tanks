@@ -38,8 +38,9 @@ void client_socket::connected()
     int result = socket.write(playerName.toStdString().c_str());
     if(result == -1)
     {
-        logger::log("Could not write to server.");
-        logger::log(socket.errorString());
+        logger l;
+        l.log("Could not write to server.");
+        l.log(socket.errorString());
     }
     socket.flush();
     //perform first connection
@@ -59,7 +60,8 @@ void client_socket::readyRead()
         QByteArray data = socket.readAll();
         if(data.isEmpty())
         {
-            logger::log("Strange. Server did not send any data.");
+            logger l;
+            l.log("Strange. Server did not send any data.");
             return;
         }
 
@@ -77,11 +79,12 @@ void client_socket::readyRead()
     else
     {
         QByteArray data = socket.readAll();
-        logger::log("Data read in client: "+ playerName + " : "+data);
+        logger l;
+        l.log("Data read in client: "+ playerName + " : "+data);
         if(data.isEmpty())
         {
-            logger::log("Strange. Server did not send any data.");
-            logger::log(socket.errorString());
+            l.log("Strange. Server did not send any data.");
+            l.log(socket.errorString());
             return;
         }
         emit serverSendMessage(QString(data));

@@ -31,6 +31,7 @@ public:
     static int createMessage(standardTankInfo info, QString &dst);
 
     static int parseMessage(QString message, standardTankInfo &dst);
+    static int parseMultipleMessages(QString message, QList<standardTankInfo> &dst);
 
 
     static QStringList getTypeList();

@@ -10,18 +10,18 @@ void TCPserver::startServer()
 {
     if(listen(QHostAddress::Any,1234))
     {
-        logger::log("Server started");
+        logger l; l.log("Server started");
     }
     else
     {
-        logger::log("Server not started");
-        logger::log(this->errorString());
+        logger l; l.log("Server not started");
+        l.log(this->errorString());
     }
 }
 
 void TCPserver::incomingConnection(qintptr handle)
 {
-    logger::log("Connection comes");
+    logger l; l.log("Connection comes");
     player_client *client = new player_client(this,this);
     connect(client,SIGNAL(playerConnected(QString,player_client*)),
             this,SLOT(firstConnectionRequest(QString,player_client*)));
@@ -33,7 +33,7 @@ void TCPserver::incomingConnection(qintptr handle)
 void TCPserver::firstConnectionRequest(QString name, player_client* client)
 {
     int result = clients.contains(name);
-    logger::log("Client already contains name result: " + QString::number(result));
+    logger l; l.log("Client already contains name result: " + QString::number(result));
 
     if(result == 0) //new name provided, success!
         handleFirstConnection(name, client);
@@ -65,6 +65,7 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
     info.position = QPoint(x,y);
     info.tankActivity = joined;
     info.tankDirection = (direction)tankDirection;
+    emit playerConnectedSignal(info);
     client->setName(name);
     client->setPosition(info.position);
     client->setTankDirection(info.tankDirection);
@@ -72,7 +73,8 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
     QString data;
     messageManager::createMessage(info,data);
     sendMessageToClients(data);
-    logger::log("Server sends data in handle first connection: "+data);
+    logger l; l.log("Server sends data in handle first connection: "+data);
+
     if(clients.count() > 1)
     {
         connect(this,SIGNAL(writeInGameMSG(QString)),client
@@ -95,6 +97,7 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
 
             QString inGameMSG;
             messageManager::createMessage(info,inGameMSG);
+            logger::log("Writing to "+name+" following inGameMsg: "+inGameMSG);
             emit writeInGameMSG(inGameMSG);
         }
         disconnect(this,SIGNAL(writeInGameMSG(QString)),client,SLOT(write(QString)));
@@ -106,6 +109,7 @@ int TCPserver::handleClientLeftGame(QString name)
     QString message;
     messageManager::createPlayerLeftGameMessage(name, message);
     sendMessageToClients(message);
+    emit playerDisconnectedSignal(name);
 }
 
 int TCPserver::handleClientMoved(standardTankInfo info, QString message)
@@ -113,7 +117,15 @@ int TCPserver::handleClientMoved(standardTankInfo info, QString message)
     if(checkForCollision(info))
     {
         //TODO: update client
-        sendMessageToClients(message);
+        emit playerMovedSignal(info);
+        QMap<QString, player_client*>::const_iterator iter = clients.find(info.name);
+        if(iter!=clients.end())
+        {
+            iter.value()->setPosition(info.position);
+            sendMessageToClients(message);
+        }
+        else
+            logger::log("TCPserver::handleCLientMoved did not found client in clients list. Client name: "+info.name);
     }
 }
 
@@ -133,34 +145,55 @@ int TCPserver::checkForCollision(standardTankInfo info)
     for(int i = 0; i<clients.count(); i++)
     {
         iter.next();
+        //ignore the sender
+        if(iter.value()->getName() == info.name)
+            continue;
+
         QPoint pos = iter.value()->getPosition();
-
-        if(x == pos.x())
+        if(x >= pos.x() && x <= pos.x()+TANK_WIDTH)
         {
-
+            int y1, y2;
+            y1=pos.y();
+            y2=pos.y()-TANK_LENGTH;
+            if(info.position.y() <=y1 && info.position.y() >= y2)
+                return 0;
         }
-        else if(y == pos.y())
+        else if(y <= pos.y() && y >= pos.y()-TANK_LENGTH)
         {
-
+            int x1, x2;
+            x1=pos.y();
+            x2=pos.y()+TANK_WIDTH;
+            if(info.position.x() >= x1 && info.position.x() <= x2)
+                return 0;
         }
     }
-    return true; //found collision
+    return true; //did not found collision
 }
 
 void TCPserver::clientHasWritten(QString data, QString name)
 {
     standardTankInfo info;
     messageManager::parseMessage(data,info);
-    if(info.tankActivity == moved)
+    switch(info.tankActivity)
+    {
+    case moved:
         handleClientMoved(info,data);
-
+        break;
+    case fired:
+        //handleClientFired(info,data);
+        break;
+    default:
+        logger::log("Should not have happened, GameWindow::serverSendMessage");
+        logger::log("Data from server: "+data);
+        break;
+    }
 
 //    taskFactory factory(this);
 //    QRunnable* task = factory.createTask(data, name);
 //    if(task != NULL)
 //        QThreadPool::globalInstance()->start(task);
 //    else
-//        logger::log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
+//        logger l; l.log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
 }
 
 void TCPserver::clientDisconnected(QString name)
@@ -180,12 +213,12 @@ void TCPserver::clientDisconnected(QString name)
     //mutex.unlock();
     if(result == 0)
     {
-        logger::log("Specified client was not found in clients. Possible error. Clients name: " + name);
+        logger l; l.log("Specified client was not found in clients. Possible error. Clients name: " + name);
         return;
     }
     else if(result > 1)
     {
-        logger::log("There were more than one clients of this name in a list. Should not happened. Clients name: " + name);
+        logger l; l.log("There were more than one clients of this name in a list. Should not happened. Clients name: " + name);
         return;
     }
     else

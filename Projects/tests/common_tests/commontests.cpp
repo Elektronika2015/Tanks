@@ -33,19 +33,19 @@ void commonTests::test_qPointToByteArray()
         QCOMPARE(compare, data);
     }
 
-    //test for null
-    {
-        QPoint point;
-        QByteArray data;
-        QCOMPARE(qPointToByteArray(point,data),1);
-    }
+//    //test for null
+//    {
+//        QPoint point;
+//        QByteArray data;
+//        QCOMPARE(qPointToByteArray(point,data),1);
+//    }
 
-    //test for negative values
-    {
-        QPoint point(-1,-1);
-        QByteArray data;
-        QCOMPARE(qPointToByteArray(point,data),1);
-    }
+//    //test for negative values
+//    {
+//        QPoint point(-1,-1);
+//        QByteArray data;
+//        QCOMPARE(qPointToByteArray(point,data),1);
+//    }
 
     //test for large values.
     {
@@ -72,12 +72,12 @@ void commonTests::test_byteArrayToQPoint()
         QCOMPARE(point,compare);
     }
 
-    //test for null
-    {
-        QPoint point;
-        QByteArray data;
-        QCOMPARE(qPointToByteArray(point,data),1);
-    }
+//    //test for null
+//    {
+//        QPoint point;
+//        QByteArray data;
+//        QCOMPARE(qPointToByteArray(point,data),1);
+//    }
 }
 
 void commonTests::test_makeNewPositionMSG()
@@ -104,12 +104,12 @@ void commonTests::test_makeNewPositionMSG()
         QCOMPARE(makeNewPositionMSG(point,data),1);
     }
 
-    //test for negative values
-    {
-        QPoint point(-1,-1);
-        QByteArray data;
-        QCOMPARE(makeNewPositionMSG(point,data),1);
-    }
+//    //test for negative values
+//    {
+//        QPoint point(-1,-1);
+//        QByteArray data;
+//        QCOMPARE(makeNewPositionMSG(point,data),1);
+//    }
 
 }
 

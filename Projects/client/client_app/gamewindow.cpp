@@ -69,79 +69,83 @@ void GameWindow::handleInGame(standardTankInfo info, QString message)
 
 void GameWindow::serverSendMessage(QString data)
 {
-    standardTankInfo info;
+    QList<standardTankInfo> infoList;
     EnemyTank *enemy=new EnemyTank;
-    this->messenger.parseMessage(data,info);
-    switch(info.tankActivity)
+    messageManager::parseMultipleMessages(data,infoList);
+    for(int i = 0 ; i < infoList.count(); i++)
     {
-    case moved:
-        //handle move
-        //void handleMove()
-        //{ if(info.name == myName
-        if(info.name ==ourPlayer.getName())
+        standardTankInfo info = infoList[i];
+        switch(info.tankActivity)
         {
-            ourPlayer.setPosition(info);
-        }
-        else
-        {
+        case moved:
+            //handle move
+            //void handleMove()
+            //{ if(info.name == myName
+            if(info.name ==ourPlayer.getName())
+            {
+                ourPlayer.setPosition(info);
+            }
+            else
+            {
+                for(int i=0; i<enemies.size();i++)
+                {
+                    if(info.name==enemies[i]->getName())
+                    {
+                        enemies[i]->setPosition(info);
+                    }
+                }
+            }
+
+            break;
+        case joined:
+            if(info.name ==ourPlayer.getName())
+            {
+                ourPlayer.setName(info.name);
+                ourPlayer.setPosition(info);
+                ourPlayer.show();
+            }
+            else
+            {
+                enemy->setName(info.name);
+                enemy->setPosition(info);
+                enemies.append(enemy);
+                battleItemsContainer.addItem(enemy);
+            }
+
+            //handle joined
+            //dodaj do listy
+            //
+            break;
+        case leftGame:
             for(int i=0; i<enemies.size();i++)
             {
                 if(info.name==enemies[i]->getName())
                 {
-                    enemies[i]->setPosition(info);
+                    battleItemsContainer.removeItem(enemies[i]);
+                    delete enemies[i];
+                    enemies.removeAt(i);
                 }
             }
+            //index of skorzystac bo Michał prosił
+            //battleItemsContainer.removeItem();
+            break;
+        case fired:
+            //handle fired
+            break;
+        case tankDestroyed:
+            //handle tankDestroyed
+            break;
+        case shown:
+            //handle shown
+            break;
+        case inGame:
+            handleInGame(info,data);
+            break;
+        default:
+            logger::log("Should not have happened, GameWindow::serverSendMessage");
+            logger::log("Data from server: "+data);
+            break;
         }
-
-        break;
-    case joined:
-        if(info.name ==ourPlayer.getName())
-        {
-            ourPlayer.setName(info.name);
-            ourPlayer.setPosition(info);
-            ourPlayer.show();
-        }
-        else
-        {
-            enemy->setName(info.name);
-            enemy->setPosition(info);
-            enemies.append(enemy);
-            battleItemsContainer.addItem(enemy);
-        }
-
-        //handle joined
-        //dodaj do listy
-        //
-        break;
-    case leftGame:
-        for(int i=0; i<enemies.size();i++)
-        {
-            if(info.name==enemies[i]->getName())
-            {
-                battleItemsContainer.removeItem(enemies[i]);
-                delete enemies[i];
-                enemies.removeAt(i);
-            }
-        }
-        //index of skorzystac bo Michał prosił
-        //battleItemsContainer.removeItem();
-        break;
-    case fired:
-        //handle fired
-        break;
-    case tankDestroyed:
-        //handle tankDestroyed
-        break;
-    case shown:
-        //handle shown
-        break;
-    case inGame:
-        handleInGame(info,data);
-        break;
-    default:
-        logger::log("Should not happened, GameWindow::serverSendMessage");
-        logger::log("Data from server: "+data);
-        break;
     }
 }
 

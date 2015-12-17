@@ -33,7 +33,8 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
             QString actString;
             if(activityToString(tankActivity,actString))
             {
-                logger::log("Could not translate activity to string.");
+                logger l;
+                l.log("Could not translate activity to string.");
                 return 1;
             }
             dst.append(actString);
@@ -46,7 +47,8 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
             QByteArray posByteArray;
             if(qPointToByteArray(position,posByteArray))
             {
-                logger::log("Could not translate QPoint to byte array.");
+                logger l;
+                l.log("Could not translate QPoint to byte array.");
                 return 1;
             }
             dst.append(QString(posByteArray));
@@ -60,7 +62,7 @@ int messageManager::createDefaultPartOfMessage(activity tankActivity, QPoint pos
 
             if(directionToString(tankDirection,dirString))
             {
-                logger::log("Could not translate direction to string.");
+                logger l;l.log("Could not translate direction to string.");
                 return 1;
             }
 
@@ -129,7 +131,7 @@ int messageManager::createPlayerJoinedMessage(QString name, QString &dst)
 //    QString actString;
 //    if(activityToString(joined,actString))
 //    {
-//        logger::log("Could not translate direction to string.");
+//        logger l;l.log("Could not translate direction to string.");
 //        return 1;
 //    }
 //    dst.append(actString);
@@ -157,7 +159,7 @@ int messageManager::createPlayerLeftGameMessage(QString name, QString &dst)
 //    QString actString;
 //    if(activityToString(leftGame,actString))
 //    {
-//        logger::log("Could not translate activity to string.");
+//        logger l;l.log("Could not translate activity to string.");
 //        return 1;
 //    }
 //    dst.append(actString);
@@ -191,7 +193,7 @@ int messageManager::parseMessageForType(QString message, QString type, standardT
 
         if(fillStandardTankInfo(parseResult, type,info))
         {
-            logger::log("Could not fill standard tank info structure. Parse result: "+parseResult);
+            logger l;l.log("Could not fill standard tank info structure. Parse result: "+parseResult);
             return badRet;
         }
     }
@@ -207,7 +209,7 @@ int messageManager::fillStandardTankInfo(QString param, QString type, standardTa
         activity act;
         if(stringToActivity(param,act))
         {
-            logger::log("Could not parse given param to activity. Given param: "+param);
+            logger l;l.log("Could not parse given param to activity. Given param: "+param);
             return 1;
         }
         info.tankActivity=act;
@@ -217,7 +219,7 @@ int messageManager::fillStandardTankInfo(QString param, QString type, standardTa
         QPoint pos;
         if(byteArrayToQPoint(param.toStdString().c_str(),pos))
         {
-            logger::log("Could not parse given param to position. Given param: "+param);
+            logger l;l.log("Could not parse given param to position. Given param: "+param);
             return 1;
         }
         info.position=pos;
@@ -227,7 +229,7 @@ int messageManager::fillStandardTankInfo(QString param, QString type, standardTa
         direction dir;
         if(stringToDirection(param,dir))
         {
-            logger::log("Could not parse given param to direction. Given param: "+param);
+            logger l;l.log("Could not parse given param to direction. Given param: "+param);
             return 1;
         }
         info.tankDirection=dir;
@@ -248,11 +250,43 @@ int messageManager::parseMessage(QString message, standardTankInfo& dst)
         int ret = parseMessageForType(message,typeList[i],dst);
         if(ret)
         {
-            logger::log("Something went wrong during parsing message for type: "+typeList[i]+" and given message: "+message);
+            logger l;l.log("Something went wrong during parsing message for type: "+typeList[i]+" and given message: "+message);
             return 1;
         }
     }
     return 0;
+}
+
+int messageManager::parseMultipleMessages(QString message, QList<standardTankInfo>& dst)
+{
+    int index = 0;
+    int ret = -1;
+    QStringList messages;
+    QString lastType;// = typeList.last();
+    createTypeMarkerEnd(typeList.last(),lastType);
+    while(1)
+    {
+        index = message.indexOf(lastType,index);
+        if(index == -1)
+            break;
+        QString tmp = message.mid(0,index + lastType.length());
+        message = message.remove(0,index + lastType.length());
+        messages.append(tmp);
+        index = 0;
+    }
+
+    for(int i = 0 ; i < messages.count(); i++)
+    {
+        standardTankInfo tmp;
+        if(parseMessage(messages[i], tmp))
+        {
+            logger::log("Could not parse one of the messages: "+messages[i]);
+            ret = i;
+            continue;
+        }
+        dst.append(tmp);
+    }
+    return ret;
 }
 
  //     [name]nazwa[/name][what]co_zrobil[/what][posi]pozycja[/posi][dire]kierunek[/dire]

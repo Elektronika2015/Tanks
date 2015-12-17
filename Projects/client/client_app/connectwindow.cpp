@@ -64,7 +64,8 @@ void ConnectWindow::nameAlreadyExistsSlot()
 
 void ConnectWindow::serverSendMessageSlot(QString data)
 {
-    logger::log(data);
+    logger l;
+    l.log(data);
 }
 
 

@@ -45,6 +45,11 @@ signals:
 
     void writeInGameMSG(QString data);
 
+
+    void playerConnectedSignal(standardTankInfo info);
+    void playerMovedSignal(standardTankInfo info);
+    void playerDisconnectedSignal(QString name);
+
 public slots:
     void firstConnectionRequest(QString name, player_client *client);
     void clientHasWritten(QString data, QString name);

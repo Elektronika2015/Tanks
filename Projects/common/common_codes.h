@@ -5,6 +5,9 @@
 #include <QStringList>
 #include "common_lib.h"
 
+#define TANK_LENGTH 50
+#define TANK_WIDTH 40
+
 #define DATA_RECEIVED "Data received"
 
 #define NO_DATA_RECEIVED "No data was received"
@@ -261,6 +264,13 @@ struct standardTankInfo
     direction tankDirection;
     QString name;
     activity tankActivity;
+
+
+    inline bool operator==(const standardTankInfo &l) const{
+        return (this->position == l.position &&
+               this->tankDirection == l.tankDirection &&
+                this->name == l.name);
+    }
 };
 
 #endif // COMMON_CODES_H

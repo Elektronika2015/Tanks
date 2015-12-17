@@ -20,7 +20,7 @@ void notifyClientsTask::notifyClients()
         //int result;
 
         iter.next();
-        logger::log("Writing to " + iter.value()->getName());
+        //logger l; l.log("Writing to " + iter.value()->getName());
 
 //        //dont write to the sender!
 //        if(iter.value()->getName() == name)

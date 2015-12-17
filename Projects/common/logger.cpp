@@ -1,12 +1,28 @@
 #include "logger.h"
 
+
+callbackFunction logger::getCallbackFunc()
+{
+    return callbackFunc;
+}
+
+void logger::setCallbackFunc(callbackFunction value)
+{
+    callbackFunc = value;
+    callbackIsSet = true;
+}
+
 logger::logger()
 {
 
 }
 
 bool logger::logToqDebug = 0;
+bool logger::callbackIsSet = 0;
+
 QString logger::itsLog;
+callbackFunction logger::callbackFunc = 0;
+//QString logger::newMsg;
 
 bool logger::getLogToqDebug()
 {
@@ -22,10 +38,16 @@ void logger::log(QString txt)
 {
     dateTime mdt;
     mdt.setCurrentTime();
-
-    itsLog += mdt.timeToString() + " " + txt + "\n";
+    QString msg = mdt.timeToString() + " " + txt + "\n";
+    itsLog += msg;
 
     if(logToqDebug == true)
-        qDebug() << mdt.timeToString() + " " + txt;
+    {
+        qDebug() << msg;
+        if(callbackIsSet == true)
+            callbackFunc(msg);
+        //emit newLogMsg(mdt.timeToString() + " " + txt);
+        //emit newMsgSignal(newMsg);
+    }
 }
 

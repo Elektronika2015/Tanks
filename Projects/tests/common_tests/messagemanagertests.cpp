@@ -32,6 +32,7 @@ private slots:
     void test_createTankJoinedMessage();
     void test_createTankLeftMessage();
     void test_parseMessage();
+    void test_parseMultipleMessages();
 };
 
 
@@ -324,6 +325,41 @@ void messageManagerTests::test_parseMessage()
         res = messageManager::parseMessage(message,result);
         QCOMPARE(res,1);
     }
+}
+
+void messageManagerTests::test_parseMultipleMessages()
+{
+    QString message;
+    QList<standardTankInfo> results;
+    message = "[name]player name[/name][what]"+QString(SHOWN_ACTIVITY_STRING)+"[/what][posi]1:1[/posi][dire]north[/dire]";
+    message.append("[name]xyz[/name][what]"+QString(SHOWN_ACTIVITY_STRING)+"[/what][posi]666:666[/posi][dire]west[/dire]");
+    int res = messageManager::parseMultipleMessages(message,results);
+    QCOMPARE(res,-1);
+    QCOMPARE(results[0].name,QString("player name"));
+    QCOMPARE(results[0].tankActivity,shown);
+    QCOMPARE(results[0].position,QPoint(1,1));
+    QCOMPARE(results[0].tankDirection,north);
+
+    QCOMPARE(results[1].name,QString("xyz"));
+    QCOMPARE(results[1].tankActivity,shown);
+    QCOMPARE(results[1].position,QPoint(666,666));
+    QCOMPARE(results[1].tankDirection,west);
+
+    results.clear();
+    message.append("[name]xyz[/name][what]"+QString(SHOWN_ACTIVITY_STRING)+"[/what][posi]666:666[/posi][dire]bad_direction[/dire]");
+    res = messageManager::parseMultipleMessages(message, results);
+    QCOMPARE(res,2);
+    QCOMPARE(results.count(),2);
+    QCOMPARE(results[0].name,QString("player name"));
+    QCOMPARE(results[0].tankActivity,shown);
+    QCOMPARE(results[0].position,QPoint(1,1));
+    QCOMPARE(results[0].tankDirection,north);
+
+    QCOMPARE(results[1].name,QString("xyz"));
+    QCOMPARE(results[1].tankActivity,shown);
+    QCOMPARE(results[1].position,QPoint(666,666));
+    QCOMPARE(results[1].tankDirection,west);
+
 }
 
 DECLARE_TEST(messageManagerTests)
