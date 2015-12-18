@@ -86,7 +86,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
-
+        emit messageSignal(info);
         break;
 
    case Qt::Key_Left:
@@ -97,6 +97,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         info.position.rx() -= 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
+        emit messageSignal(info);
         break;
 
 
@@ -108,6 +109,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         info.position.ry() -= 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
+        emit messageSignal(info);
         break;
 
 
@@ -119,6 +121,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         info.position.ry() += 5;
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
+        emit messageSignal(info);
         break;
 
    case Qt::Key_Space:
@@ -130,9 +133,10 @@ void TankModel::keyPressEvent(QKeyEvent *event)
        info.position = this->pos().toPoint();
        info.tankDirection = tankDirection;
        info.tankActivity = fired;
+       emit messageSignal(info);
         break;
    }
-    emit messageSignal(info);
+
 }
 
 

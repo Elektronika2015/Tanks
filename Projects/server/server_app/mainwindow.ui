@@ -20,7 +20,7 @@
       <item row="0" column="0" rowspan="2">
        <widget class="QListView" name="playerListView">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </item>

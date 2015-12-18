@@ -1,11 +1,17 @@
 #include "ball.h"
 #include "logger.h"
-Ball::Ball(QGraphicsItem *parent): QGraphicsItem(parent)
+Ball::Ball(QGraphicsItem *parent, QString _bulletName, QString _shooterName)
+    : QGraphicsItem(parent), bulletName(_bulletName), shooterName(_shooterName)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setVisible(false);
+}
 
-
+Ball::Ball(QGraphicsItem *parent)
+    : QGraphicsItem(parent)
+{
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setVisible(false);
 }
 
 QRectF Ball::boundingRect() const
@@ -13,13 +19,20 @@ QRectF Ball::boundingRect() const
     return QRectF(0,0,20,20); //edges of bullet
 
 }
+QString Ball::getShooterName() const
+{
+    return shooterName;
+}
+
+QString Ball::getBulletName() const
+{
+    return bulletName;
+}
+
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-
     painter->drawPixmap(0,0, QPixmap(":/Graphics/ball.png"));
-
 }
 
 void Ball::updateBallCoordinates()
@@ -96,4 +109,12 @@ void Ball::setBullet(direction dir, int x, int y)
     }
 
 
+}
+
+void Ball::moveMe(QPoint p)
+{
+    QByteArray posString;
+    this->moveBy(p.x()-this->pos().toPoint().x(),p.y()-this->pos().toPoint().y());
+    qPointToByteArray(this->pos().toPoint(),posString);
+    logger::log("I am moving!: "+bulletName+" Current position: "+ QString(posString));
 }

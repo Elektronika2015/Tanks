@@ -10,23 +10,29 @@
 #include "thread.h"
 #include "taskfactory.h"
 #include <QPoint>
+#include <QtAlgorithms>
+#include "bullet.h"
 
 #define RUN_ON_LOCALHOST 1
 #define RUN_ON_COMPUTER_HOST 2
 
 class player_client;
+class bullet;
 
 class TCPserver : public QTcpServer
 {
     Q_OBJECT
 private:
     QMap<QString, player_client*> clients;
+    QList<bullet*> bullets;
 
     friend class taskFactory;
 
     int handleFirstConnection(QString name, player_client* client);
     int handleClientLeftGame(QString name);
     int handleClientMoved(standardTankInfo info, QString message);
+    int handleClientFired(standardTankInfo info,QString message);
+    QString findNextPossibleName();
     int sendMessageToClients(QString data);
 
     int checkForCollision(standardTankInfo info);
@@ -50,7 +56,9 @@ signals:
     void playerMovedSignal(standardTankInfo info);
     void playerDisconnectedSignal(QString name);
 
-public slots:
+private slots:
+    void bulletMoveSlot(standardTankInfo info);
+    void bulletDeadSlot(standardTankInfo info);
     void firstConnectionRequest(QString name, player_client *client);
     void clientHasWritten(QString data, QString name);
     void clientDisconnected(QString name);

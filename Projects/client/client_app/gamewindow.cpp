@@ -70,7 +70,9 @@ void GameWindow::handleInGame(standardTankInfo info, QString message)
 void GameWindow::serverSendMessage(QString data)
 {
     QList<standardTankInfo> infoList;
-    EnemyTank *enemy=new EnemyTank;
+    //EnemyTank *enemy=new EnemyTank;      <----- wyciek pamieci Aruś! :-)
+    EnemyTank *enemy;
+    Ball *b;
     messageManager::parseMultipleMessages(data,infoList);
     for(int i = 0 ; i < infoList.count(); i++)
     {
@@ -87,11 +89,24 @@ void GameWindow::serverSendMessage(QString data)
             }
             else
             {
-                for(int i=0; i<enemies.size();i++)
+                if(info.name.contains("bullet"))
                 {
-                    if(info.name==enemies[i]->getName())
+                    for(int i = 0 ; i < balls.size(); i++)
                     {
-                        enemies[i]->setPosition(info);
+                        if(info.name == balls[i]->getBulletName())
+                            balls[i]->moveMe(info.position);
+                    }
+                }
+                else
+                {
+                    for(int i=0; i<enemies.size();i++)
+                    {
+                        if(info.name==enemies[i]->getName())
+                        {
+                            enemies[i]->setPosition(info);
+                            break;
+
+                        }
                     }
                 }
             }
@@ -106,6 +121,7 @@ void GameWindow::serverSendMessage(QString data)
             }
             else
             {
+                enemy = new EnemyTank();
                 enemy->setName(info.name);
                 enemy->setPosition(info);
                 enemies.append(enemy);
@@ -131,6 +147,10 @@ void GameWindow::serverSendMessage(QString data)
             break;
         case fired:
             //handle fired
+            b = new Ball(NULL,info.name,info.name);
+            b->show();
+            balls.append(b);
+            battleItemsContainer.addItem(b);
             break;
         case tankDestroyed:
             //handle tankDestroyed

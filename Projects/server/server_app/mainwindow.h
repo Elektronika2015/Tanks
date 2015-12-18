@@ -21,8 +21,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
 private:
     static Ui::MainWindow ui;
     static QList<standardTankInfo> players;
@@ -31,7 +29,15 @@ private:
     static logger servLogger;
     static TCPserver serv;
     static int index;
+
+
     static void callback(QString msg);
+    static void updatePlayerInformation(standardTankInfo info);
+    static void clearPlayerInformation();
+
+
+
+
 private slots:
     static void playerConnectedSlot(standardTankInfo info);
     static void playerMovedSlot(standardTankInfo info);

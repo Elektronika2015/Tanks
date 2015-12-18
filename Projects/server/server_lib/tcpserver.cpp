@@ -30,6 +30,19 @@ void TCPserver::incomingConnection(qintptr handle)
     client->setSocket(handle);
 }
 
+void TCPserver::bulletMoveSlot(standardTankInfo info)
+{
+    QString msg;
+    info.tankActivity = moved;
+    messageManager::createMessage(info,msg);
+    sendMessageToClients(msg);
+}
+
+void TCPserver::bulletDeadSlot(standardTankInfo info)
+{
+    logger::log("collsion found for bullet");
+}
+
 void TCPserver::firstConnectionRequest(QString name, player_client* client)
 {
     int result = clients.contains(name);
@@ -73,7 +86,7 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
     QString data;
     messageManager::createMessage(info,data);
     sendMessageToClients(data);
-    logger l; l.log("Server sends data in handle first connection: "+data);
+    logger::log("Server sends data in handle first connection: "+data);
 
     if(clients.count() > 1)
     {
@@ -129,6 +142,77 @@ int TCPserver::handleClientMoved(standardTankInfo info, QString message)
     }
 }
 
+int TCPserver::handleClientFired(standardTankInfo info, QString message)
+{
+    bullet* b = new bullet(NULL,info,findNextPossibleName(),&clients);
+    info.name = b->getBulletName();
+    info.name.append(b->getShooterName());
+    messageManager::createMessage(info,message);
+    sendMessageToClients(message);
+    connect(b,SIGNAL(bulletMoveSignal(standardTankInfo))
+            ,this,SLOT(bulletMoveSlot(standardTankInfo)));//,Qt::QueuedConnection);
+    connect(b,SIGNAL(bulletDeadSignal(standardTankInfo))
+                     ,this,SLOT(bulletDeadSlot(standardTankInfo)));
+    bullets.append(b);
+}
+
+QString TCPserver::findNextPossibleName()
+{
+    if(bullets.count() == 0)
+        return "bullet000";
+    else
+    {
+        int bulletLength = QString("bullet").length();
+        QVector<bool> ownedNumbers;
+
+        QVector<int> numbers;
+        for(int i = 0 ; i < bullets.count(); i++)
+        {
+            QString tmp = bullets[i]->getBulletName();
+            tmp = tmp.remove(0,bulletLength);
+            numbers.append(tmp.toInt());
+        }
+
+        //find the biggest number, so we dont need to create vector of 999 elements
+        //every time we find next possible number.
+        qSort(numbers);
+        ownedNumbers.resize(numbers.first());
+        for(int i = 0; i < numbers.first(); i++)
+            ownedNumbers[i]=false;
+
+        //find out which numbers are already taken
+        for(int i = 0 ; i < ownedNumbers.count(); i++)
+            ownedNumbers[numbers[i]] = true;
+
+        //get first possible number and create a message
+        int index = 0 ;
+        for(index; index < ownedNumbers.count(); index++)
+            if(ownedNumbers[index] == false)
+                break;
+
+        //the index of bullet has 3 digits, that is the reason of ifs below.
+        QString bulletName = "bullet";
+        if(index < 10)
+        {
+            //we need to add 2 zeros before index
+            bulletName.append(QString::number(index));
+            bulletName.insert(bulletLength,"00");
+        }
+        else if (index < 100)
+        {
+            //we need to add 1 zero before index
+            bulletName.append(QString::number(index));
+            bulletName.insert(bulletLength,"0");
+        }
+        else
+        {
+            //add as it is, as it has 3 digits.
+            bulletName.append(QString::number(index));
+        }
+        return bulletName;
+    }
+}
+
 int TCPserver::sendMessageToClients(QString data)
 {
     notifyClientsTask *task = new notifyClientsTask (&this->clients,data,"tmp");
@@ -180,7 +264,7 @@ void TCPserver::clientHasWritten(QString data, QString name)
         handleClientMoved(info,data);
         break;
     case fired:
-        //handleClientFired(info,data);
+        handleClientFired(info,data);
         break;
     default:
         logger::log("Should not have happened, GameWindow::serverSendMessage");
@@ -188,12 +272,12 @@ void TCPserver::clientHasWritten(QString data, QString name)
         break;
     }
 
-//    taskFactory factory(this);
-//    QRunnable* task = factory.createTask(data, name);
-//    if(task != NULL)
-//        QThreadPool::globalInstance()->start(task);
-//    else
-//        logger l; l.log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
+    //    taskFactory factory(this);
+    //    QRunnable* task = factory.createTask(data, name);
+    //    if(task != NULL)
+    //        QThreadPool::globalInstance()->start(task);
+    //    else
+    //        logger l; l.log("Wrong data was provided by " + name + " so the task was not created. Provided data: " + data);
 }
 
 void TCPserver::clientDisconnected(QString name)

@@ -50,6 +50,40 @@ void MainWindow::callback(QString msg)
     //mutex.unlock();
 }
 
+void MainWindow::updatePlayerInformation(standardTankInfo info)
+{
+    QString activityString, directionString;
+    QByteArray pointString;
+    if(activityToString(info.tankActivity,activityString))
+    {
+        logger::log("UPS! Something wrong with activity string! Moving on...");
+        return;
+    }
+    if(directionToString(info.tankDirection,directionString))
+    {
+        logger::log("UPS! Something wrong with direction string! Moving on...");
+        return;
+    }
+    if(qPointToByteArray(info.position,pointString))
+    {
+        logger::log("UPS! Something wrong with position string! Moving on...");
+        return;
+    }
+
+    ui.playerNameLineEdit->setText(info.name);
+    ui.positionLineEdit->setText(QString(pointString));
+    ui.activityLineEdit->setText(activityString);
+    ui.tankDirectionLineEdit->setText(directionString);
+}
+
+void MainWindow::clearPlayerInformation()
+{
+    ui.playerNameLineEdit->clear();
+    ui.positionLineEdit->clear();
+    ui.activityLineEdit->clear();
+    ui.tankDirectionLineEdit->clear();
+}
+
 void MainWindow::playerConnectedSlot(standardTankInfo info)
 {
     playersNamesList.append(info.name);
@@ -67,6 +101,9 @@ void MainWindow::playerMovedSlot(standardTankInfo info)
         {
             players[i].position = info.position;
             players[i].tankDirection = info.tankDirection;
+            players[i].tankActivity = info.tankActivity;
+            if(ui.playerNameLineEdit->text() == info.name)
+                updatePlayerInformation(info);
             return;
         }
     logger::log("could not find given player in list: "+info.name);
@@ -77,7 +114,11 @@ void MainWindow::playerDisconnectedSlot(QString name)
     playersNamesList.removeAll(name);
     for(int i = 0; i < players.count();i++)
         if(players.value(i).name == name)
+        {
             players.removeAt(i);
+            if(name == ui.playerNameLineEdit->text())
+                clearPlayerInformation();
+        }
 
     listModel.setStringList(playersNamesList);
     ui.playerListView->setModel(&listModel);
@@ -85,5 +126,6 @@ void MainWindow::playerDisconnectedSlot(QString name)
 
 void MainWindow::on_playerListView_clicked(const QModelIndex &index)
 {
-    //ui.playerListView->indexWidget(index)->;
+    standardTankInfo info = players[index.row()];
+    updatePlayerInformation(info);
 }

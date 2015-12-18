@@ -11,7 +11,9 @@
 #include "common_codes.h"
 #include "enemytank.h"
 #include "messagemanager.h"
+#include "ball.h"
 
+//class ball;
 
 namespace Ui {
 class GameWindow;
@@ -25,8 +27,6 @@ public:
     explicit GameWindow(QWidget *parent = 0);
     ~GameWindow();
     void setSocketPointer(client_socket * socketAdress);
-
-
     void setTankName(QString name);
 
 private:
@@ -35,6 +35,7 @@ private:
     TankModel ourPlayer;
     messageManager messenger;
     QList<EnemyTank*> enemies;
+    QList<Ball*> balls; //ale jaja
 
     QWidget *connectWindowPointer;
     client_socket *socketPointer;

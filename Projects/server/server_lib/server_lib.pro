@@ -18,14 +18,16 @@ SOURCES += \
     tcpserver.cpp \
     player_client.cpp \
     positionchangedtask.cpp \
-    taskfactory.cpp
+    taskfactory.cpp \
+    bullet.cpp
 
 HEADERS += server_lib.h \
     thread.h \
     tcpserver.h \
     player_client.h \
     positionchangedtask.h \
-    taskfactory.h
+    taskfactory.h \
+    bullet.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
