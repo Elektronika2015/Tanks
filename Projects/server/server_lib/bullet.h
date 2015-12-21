@@ -17,7 +17,7 @@ private:
     QTimer timer;
 
     int checkEdges();
-    int checkForCollision();
+    int checkForCollision(QString &destroyedName);
     void setBullet();
     void moveBullet();
 public:
@@ -28,7 +28,8 @@ public:
 
 signals:
     void bulletMoveSignal(standardTankInfo info);
-    void bulletDeadSignal(standardTankInfo info);
+    void bulletDeadSignal(QString msg, QString bulletName);
+    void bulletHitSignal(QString msg, QString bulletName, QString destroyedName);
 
 private slots:
     void moveBulletSlot();

@@ -67,6 +67,61 @@ void GameWindow::handleInGame(standardTankInfo info, QString message)
     enemy->show();
 }
 
+void GameWindow::handleKillBullet(standardTankInfo info, QString message)
+{
+    for(int i = 0 ; i < balls.size(); i++)
+    {
+        if(info.name == balls[i]->getBulletName())
+        {
+            balls[i]->hide();
+            delete balls[i];
+            balls.removeAt(i);
+        }
+    }
+}
+
+void GameWindow::handleDestroyed(standardTankInfo info, QString message)
+{
+    if(info.name == ourPlayer.getName())
+    {
+        ourPlayer.hide();
+        //wybuch?
+    }
+    else
+    {
+        for(int i=0; i<enemies.size();i++)
+        {
+            if(info.name==enemies[i]->getName())
+            {
+                enemies[i]->hide();
+                //wybuch?
+                break;
+            }
+        }
+    }
+}
+
+void GameWindow::handleShown(standardTankInfo info, QString message)
+{
+    if(info.name == ourPlayer.getName())
+    {
+        ourPlayer.setPosition(info);
+        ourPlayer.show();
+    }
+    else
+    {
+        for(int i=0; i<enemies.size();i++)
+        {
+            if(info.name==enemies[i]->getName())
+            {
+                enemies[i]->setPosition(info);
+                enemies[i]->show();
+                break;
+            }
+        }
+    }
+}
+
 void GameWindow::serverSendMessage(QString data)
 {
     QList<standardTankInfo> infoList;
@@ -153,13 +208,19 @@ void GameWindow::serverSendMessage(QString data)
             battleItemsContainer.addItem(b);
             break;
         case tankDestroyed:
-            //handle tankDestroyed
+            handleDestroyed(info,data);
             break;
         case shown:
-            //handle shown
+            handleShown(info,data);
             break;
         case inGame:
             handleInGame(info,data);
+            break;
+        case killBullet:
+            handleKillBullet(info,data);
+            break;
+        case scored:
+            //handle scored;
             break;
         default:
             logger::log("Should not have happened, GameWindow::serverSendMessage");

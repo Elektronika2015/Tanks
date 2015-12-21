@@ -194,7 +194,9 @@ enum activity
     fired,
     tankDestroyed,
     shown,    //shown on map, after joined and destroyed
-    inGame
+    inGame,
+    scored,
+    killBullet
 };
 
 #define JOIN_ACTIVITY_STRING "joined"
@@ -204,6 +206,8 @@ enum activity
 #define DESTROYED_ACTIVITY_STRING "destroyed"
 #define SHOWN_ACTIVITY_STRING "shown"
 #define IN_GAME_ACTIVITY_STRING "inGame"
+#define SCORED_ACTIVITY_STRING "scored"
+#define KILL_BULLET_ACTIVITY_STRING "killBullet"
 
 static int activityToString(activity act, QString &dst)
 {
@@ -230,6 +234,12 @@ static int activityToString(activity act, QString &dst)
     case inGame:
         dst=IN_GAME_ACTIVITY_STRING;
         break;
+    case scored:
+        dst=SCORED_ACTIVITY_STRING;
+        break;
+    case killBullet:
+        dst=KILL_BULLET_ACTIVITY_STRING;
+        break;
     default:
         return 1;
     }
@@ -252,6 +262,10 @@ static int stringToActivity(QString actString, activity &dst)
         dst=tankDestroyed;
     else if(actString == IN_GAME_ACTIVITY_STRING)
         dst=inGame;
+    else if(actString == SCORED_ACTIVITY_STRING)
+        dst=scored;
+    else if(actString == KILL_BULLET_ACTIVITY_STRING)
+        dst=killBullet;
     else
         return 1;
 

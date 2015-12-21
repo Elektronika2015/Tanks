@@ -49,6 +49,9 @@ private:
     }
 
     void handleInGame(standardTankInfo info, QString message);
+    void handleKillBullet(standardTankInfo info, QString message);
+    void handleDestroyed(standardTankInfo info, QString message);
+    void handleShown(standardTankInfo info, QString message);
 private slots:
     void serverSendMessage(QString data);
     void ourPlayerMessage(standardTankInfo info);

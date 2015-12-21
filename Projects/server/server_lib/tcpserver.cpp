@@ -38,9 +38,22 @@ void TCPserver::bulletMoveSlot(standardTankInfo info)
     sendMessageToClients(msg);
 }
 
-void TCPserver::bulletDeadSlot(standardTankInfo info)
+void TCPserver::bulletDeadSlot(QString msg, QString bulletName)
 {
     logger::log("collsion found for bullet");
+    logger::log(msg);
+    sendMessageToClients(msg);
+    removeBullet(bulletName);
+}
+
+void TCPserver::bulletHitSlot(QString msg, QString bulletName, QString destroyedName)
+{
+    logger::log("Creating shown msg");
+    QString shownMsg = setShownMsg(destroyedName);
+    msg.append(shownMsg);
+
+    sendMessageToClients(msg);
+    removeBullet(bulletName);
 }
 
 void TCPserver::firstConnectionRequest(QString name, player_client* client)
@@ -98,7 +111,7 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
         {
             iter.next();
 
-            //reciever in not in inGame state yet!
+            //reciever is not in inGame state yet!
             if(iter.value()->getName() == name)
                 continue;
 
@@ -146,18 +159,48 @@ int TCPserver::handleClientFired(standardTankInfo info, QString message)
 {
     bullet* b = new bullet(NULL,info,findNextPossibleName(),&clients);
     info.name = b->getBulletName();
-    info.name.append(b->getShooterName());
+    //info.name.append(b->getShooterName());
     messageManager::createMessage(info,message);
     sendMessageToClients(message);
+
     connect(b,SIGNAL(bulletMoveSignal(standardTankInfo))
             ,this,SLOT(bulletMoveSlot(standardTankInfo)));//,Qt::QueuedConnection);
-    connect(b,SIGNAL(bulletDeadSignal(standardTankInfo))
-                     ,this,SLOT(bulletDeadSlot(standardTankInfo)));
+
+    connect(b,SIGNAL(bulletDeadSignal(QString,QString))
+                     ,this,SLOT(bulletDeadSlot(QString,QString)),Qt::QueuedConnection);
+
+    connect(b,SIGNAL(bulletHitSignal(QString,QString,QString)),
+            this,SLOT(bulletHitSlot(QString,QString,QString)),Qt::QueuedConnection);
+
     bullets.append(b);
+}
+
+QString TCPserver::setShownMsg(QString name)
+{
+    standardTankInfo info;
+    info.name = name;
+    info.tankActivity = shown;
+    info.tankDirection = (direction)(rand() % 1 + 4);
+    info.position.setX(rand()%MAP_EAST_EDGE + 100);
+    info.position.setY(rand()%MAP_NORTH_EDGE + 100);
+    QString ret;
+    messageManager::createMessage(info,ret);
+
+    logger::log("Created shown message: "+ret);
+    QMap<QString, player_client*>::const_iterator iter = clients.find(name);
+    if(iter!=clients.end())
+    {
+        iter.value()->setPosition(info.position);
+        iter.value()->setTankDirection(info.tankDirection);
+        logger::log("Updated clients position and direction!");
+    }
+
+    return ret;
 }
 
 QString TCPserver::findNextPossibleName()
 {
+    logger::log("Bullets count: "+QString::number(bullets.count()));
     if(bullets.count() == 0)
         return "bullet000";
     else
@@ -252,6 +295,16 @@ int TCPserver::checkForCollision(standardTankInfo info)
         }
     }
     return true; //did not found collision
+}
+
+void TCPserver::removeBullet(QString bulletName)
+{
+    for(int i = 0 ; i <  bullets.size(); i++)
+        if(bullets[i]->getBulletName() == bulletName)
+        {
+            delete bullets[i];
+            bullets.removeAt(i);
+        }
 }
 
 void TCPserver::clientHasWritten(QString data, QString name)

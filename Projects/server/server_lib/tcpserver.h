@@ -32,10 +32,13 @@ private:
     int handleClientLeftGame(QString name);
     int handleClientMoved(standardTankInfo info, QString message);
     int handleClientFired(standardTankInfo info,QString message);
+
+    QString setShownMsg(QString name);
     QString findNextPossibleName();
     int sendMessageToClients(QString data);
 
     int checkForCollision(standardTankInfo info);
+    void removeBullet(QString bulletName);
 
 public:
     explicit TCPserver(QObject *parent = 0);
@@ -58,7 +61,8 @@ signals:
 
 private slots:
     void bulletMoveSlot(standardTankInfo info);
-    void bulletDeadSlot(standardTankInfo info);
+    void bulletDeadSlot(QString msg, QString bulletName);
+    void bulletHitSlot(QString msg, QString bulletName, QString destroyedName);
     void firstConnectionRequest(QString name, player_client *client);
     void clientHasWritten(QString data, QString name);
     void clientDisconnected(QString name);
