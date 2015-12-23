@@ -82,10 +82,11 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
     //also connect to disconnect signal of client, so we can delete It from clients map
     //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
 
-    int x = rand()%MAP_EAST_EDGE + 100;
-    int y = rand()%MAP_NORTH_EDGE + 100;
 
-    int tankDirection = rand() % 1 + 4;
+    int x = rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH) +MAP_WEST_EDGE;
+    int y = rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE;
+
+    int tankDirection = rand() % 4 + 1;
     standardTankInfo info;
     info.name = name;
     info.position = QPoint(x,y);
@@ -181,8 +182,9 @@ QString TCPserver::setShownMsg(QString name)
     info.name = name;
     info.tankActivity = shown;
     info.tankDirection = (direction)(rand() % 1 + 4);
-    info.position.setX(rand()%MAP_EAST_EDGE + 100);
-    info.position.setY(rand()%MAP_NORTH_EDGE + 100);
+
+        info.position.setX(rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH)+ MAP_WEST_EDGE);
+        info.position.setY(rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE);
     QString ret;
     messageManager::createMessage(info,ret);
 
@@ -277,6 +279,7 @@ int TCPserver::checkForCollision(standardTankInfo info)
             continue;
 
         QPoint pos = iter.value()->getPosition();
+        /*
         if(x >= pos.x() && x <= pos.x()+TANK_WIDTH)
         {
             int y1, y2;
@@ -292,7 +295,28 @@ int TCPserver::checkForCollision(standardTankInfo info)
             x2=pos.y()+TANK_WIDTH;
             if(info.position.x() >= x1 && info.position.x() <= x2)
                 return 0;
+        }*/
+
+
+        if((iter.value()->getTankDirection()==east || iter.value()->getTankDirection()==west) &&( x >=( pos.x()-TANK_LENGTH)) && (x <= pos.x()+TANK_LENGTH) )
+        {
+            int y1, y2;
+            y1=pos.y();
+            y2=pos.y()+TANK_WIDTH;
+            if(y >=(y1-TANK_WIDTH) && y <=y2)
+                return 0;
         }
+        else if((iter.value()->getTankDirection()==north || iter.value()->getTankDirection()==south) &&( x >= (pos.x()-TANK_WIDTH)) && (x <= pos.x()+TANK_WIDTH) )
+        {
+            int y1, y2;
+            y1=pos.y();
+            y2=pos.y()+TANK_LENGTH;
+            if(y >=(y1-TANK_LENGTH) && y <= y2)
+                return 0;
+        }
+
+
+
     }
     return true; //did not found collision
 }

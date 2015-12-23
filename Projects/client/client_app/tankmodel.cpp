@@ -76,8 +76,9 @@ void TankModel::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
     case Qt::Key_Right:
-        setTankDirection(east);
         if(!(check_map_edges(east))) break;
+        tankDirection=east;
+
 
         info.name=this->name;
         info.position = this->pos().toPoint();
@@ -90,8 +91,9 @@ void TankModel::keyPressEvent(QKeyEvent *event)
         break;
 
    case Qt::Key_Left:
-        setTankDirection(west);
         if(!(check_map_edges(west))) break;
+        tankDirection=west;
+
         info.name=this->name;
         info.position = this->pos().toPoint();
         info.position.rx() -= 5;
@@ -102,8 +104,8 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
 
    case Qt::Key_Up:
-        setTankDirection(north);
         if(!(check_map_edges(north))) break;
+        tankDirection=north;
         info.name=this->name;
         info.position = this->pos().toPoint();
         info.position.ry() -= 5;
@@ -114,8 +116,8 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
 
    case Qt::Key_Down:
-        setTankDirection(south);
         if(!(check_map_edges(south))) break;
+        tankDirection=south;
         info.name=this->name;
         info.position = this->pos().toPoint();
         info.position.ry() += 5;
@@ -145,19 +147,19 @@ bool TankModel::check_map_edges(direction dir)
     switch(dir)
     {
     case north:
-        if(y()==(MAP_NORTH_EDGE+5)) return false;
+        if(pos().y()<=(MAP_NORTH_EDGE+5)) return false;
         break;
 
     case south:
-        if(y()==(MAP_SOUTH_EDGE-50)) return false;
+        if(pos().y()>=(MAP_SOUTH_EDGE-50)) return false;
         break;
 
     case west:
-        if(x()==(MAP_WEST_EDGE+5)) return false;
+        if(pos().x()<=(MAP_WEST_EDGE+10)) return false;
         break;
 
     case east:
-        if(x()==(MAP_EAST_EDGE-50)) return false;
+        if(pos().x()>=(MAP_EAST_EDGE-50)) return false;
         break;
 
     }

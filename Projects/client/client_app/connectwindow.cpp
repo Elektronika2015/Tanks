@@ -44,12 +44,14 @@ void ConnectWindow::on_connectButton_clicked()
 
 void ConnectWindow::connectionAcceptedSlot()
 {
+    mainWindowPointer->close();
     win= new GameWindow(this);
     win->setSocketPointer(&socket);
     win->setTankName(socket.getPlayerName());
     ui->label_4->setText("ok");
     win->show();
-    this->hide();
+
+
     firstConnection = false;
     disconnect(&socket,SIGNAL(serverSendMessage(QString)),this,SLOT(serverSendMessageSlot(QString)));
 }
