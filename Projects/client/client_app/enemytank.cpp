@@ -61,6 +61,6 @@ void EnemyTank::setTankDirection(direction dir)
 void EnemyTank::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    painter->drawPixmap(0,0, QPixmap(":/Graphics/tank1.png"));
+    painter->drawPixmap(0,0, QPixmap(":/Graphics/enemyTank.png"));
 }
 

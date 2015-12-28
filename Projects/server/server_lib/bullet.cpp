@@ -18,6 +18,7 @@ void bullet::moveBulletSlot()
     QString destroyedName;
     if(checkForCollision(destroyedName))
     {
+        timer.stop();
         logger::log("Preparing for creating infos");
         standardTankInfo scoredInfo, destroyedInfo;
         QString scoredMsg, destroyedMsg,killBulletMsg;

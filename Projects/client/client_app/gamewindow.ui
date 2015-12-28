@@ -12,24 +12,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>1350</width>
     <height>690</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
+    <width>1350</width>
     <height>690</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
+    <width>1350</width>
     <height>690</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Tanks</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -40,7 +40,21 @@
   <property name="dockNestingEnabled">
    <bool>true</bool>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>516</x>
+      <y>10</y>
+      <width>71</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

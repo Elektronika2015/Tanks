@@ -12,6 +12,7 @@
 #include "enemytank.h"
 #include "messagemanager.h"
 #include "ball.h"
+#include "score.h"
 
 //class ball;
 
@@ -32,6 +33,7 @@ public:
 private:
     QGraphicsScene battleItemsContainer;
     QGraphicsView battlefield;
+    Score playerScore;
     TankModel ourPlayer;
     messageManager messenger;
     QList<EnemyTank*> enemies;

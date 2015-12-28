@@ -10,15 +10,18 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     logger::setLogToqDebug(false);
     ui->setupUi(this);
-    battleItemsContainer.setSceneRect(MAP_WEST_EDGE,MAP_NORTH_EDGE,(-MAP_WEST_EDGE)+MAP_EAST_EDGE,(-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE);
+
     battleItemsContainer.setBackgroundBrush(Qt::black);
+    battleItemsContainer.setSceneRect(MAP_WEST_EDGE,MAP_NORTH_EDGE,(-MAP_WEST_EDGE)+MAP_EAST_EDGE,(-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE);
     battleItemsContainer.addItem(&ourPlayer.bullet);
     battleItemsContainer.addItem(&ourPlayer);
-
+    battleItemsContainer.addItem(&playerScore);
+    playerScore.setPos(MAP_WEST_EDGE,MAP_NORTH_EDGE-35);
     connect(&ourPlayer,SIGNAL(messageSignal(standardTankInfo)),
             this,SLOT(ourPlayerMessage(standardTankInfo)));
-
+    battlefield.centerOn(100,100);
     battlefield.setScene(&battleItemsContainer);
+    //battlefield.centerOn(100,100);
 
     QPen mypen= QPen(Qt::red);
     QLineF TopLine(battleItemsContainer.sceneRect().topLeft(),battleItemsContainer.sceneRect().topRight());
@@ -220,7 +223,11 @@ void GameWindow::serverSendMessage(QString data)
             handleKillBullet(info,data);
             break;
         case scored:
-            //handle scored;
+            if(info.name==ourPlayer.getName())
+            {
+                logger::log("ZDOBYTO PUNKT!");
+                playerScore.increase();
+            }
             break;
         default:
             logger::log("Should not have happened, GameWindow::serverSendMessage");

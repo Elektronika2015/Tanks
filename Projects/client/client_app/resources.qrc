@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Graphics/tank1.png</file>
         <file>Graphics/ball.png</file>
+        <file>Graphics/enemyTank.png</file>
     </qresource>
 </RCC>
