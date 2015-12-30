@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     client_socket.cpp \
     mytank.cpp \
     enemytank.cpp \
-    score.cpp
+    score.cpp \
+    walls.cpp \
+    mapbarriers.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
@@ -31,7 +33,9 @@ HEADERS  += mainwindow.h \
     client_socket.h \
     mytank.h \
     enemytank.h \
-    score.h
+    score.h \
+    walls.h \
+    mapbarriers.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \

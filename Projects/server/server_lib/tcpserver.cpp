@@ -81,10 +81,15 @@ int TCPserver::handleFirstConnection(QString name, player_client *client)
 
     //also connect to disconnect signal of client, so we can delete It from clients map
     //connect(client,SIGNAL(clientDisconnected(QString)),this,SLOT(clientDisconnected(QString)));
+    int x;
+    int y;
+    do
+    {
+        x = rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH) +MAP_WEST_EDGE;
+        y = rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE;
 
+    }while(checkCollisionWallsWithTank(x,y));
 
-    int x = rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH) +MAP_WEST_EDGE;
-    int y = rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE;
 
     int tankDirection = rand() % 4 + 1;
     standardTankInfo info;
@@ -182,9 +187,17 @@ QString TCPserver::setShownMsg(QString name)
     info.name = name;
     info.tankActivity = shown;
     info.tankDirection = (direction)(rand() % 1 + 4);
+    int x;
+    int y;
+    do
+    {
+        x=rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH)+ MAP_WEST_EDGE;
+        y=rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE;
 
-        info.position.setX(rand()%(MAP_EAST_EDGE+(-MAP_WEST_EDGE)-TANK_LENGTH)+ MAP_WEST_EDGE);
-        info.position.setY(rand()%((-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE-TANK_LENGTH)+MAP_NORTH_EDGE);
+
+    }while(checkCollisionWallsWithTank(x,y));
+        info.position.setX(x);
+        info.position.setY(y);
     QString ret;
     messageManager::createMessage(info,ret);
 
@@ -269,6 +282,7 @@ int TCPserver::checkForCollision(standardTankInfo info)
 {
     int x = info.position.x();
     int y = info.position.y();
+    if(checkCollisionWallsWithTank(x,y))return false;
 
     QMapIterator<QString, player_client*> iter(clients);
     for(int i = 0; i<clients.count(); i++)
@@ -316,10 +330,42 @@ int TCPserver::checkForCollision(standardTankInfo info)
         }
 
 
-
     }
     return true; //did not found collision
 }
+
+bool TCPserver::checkCollisionWallsWithTank(int x, int y)
+{
+    //Wall 0
+    if(x>-305 & x<-195 & y >-50 & y<160)return true;
+
+    //Wall 1
+    if(x>-305 & x<-195 & y >195 & y<405)return true;
+
+    //Wall 2
+    if(x>580 & x<685 & y >-50 & y<160)return true;
+
+    //Wall 3
+    if(x>580 & x<685 & y >195 & y<405)return true;
+
+    //Wall 4
+    if(x>-120 & x<-15 & y >73 & y<283)return true;
+
+    //Wall 5
+    if(x>400 & x<505 & y >73 & y<283)return true;
+
+    //Wall 6
+    if(x>90 & x<295 & y >-50 & y<60)return true;
+
+    //Wall 7
+    if(x>90 & x<295 & y >295 & y<405)return true;
+
+
+
+    return false;
+}
+
+
 
 void TCPserver::removeBullet(QString bulletName)
 {

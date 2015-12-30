@@ -5,6 +5,7 @@ Ball::Ball(QGraphicsItem *parent, QString _bulletName, QString _shooterName)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setVisible(false);
+    setPos(-600,-200);
 }
 
 Ball::Ball(QGraphicsItem *parent)
@@ -12,6 +13,7 @@ Ball::Ball(QGraphicsItem *parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setVisible(false);
+    setPos(-600,-200);
 }
 
 QRectF Ball::boundingRect() const

@@ -38,6 +38,7 @@ private:
     int sendMessageToClients(QString data);
 
     int checkForCollision(standardTankInfo info);
+    bool checkCollisionWallsWithTank(int x, int y);
     void removeBullet(QString bulletName);
 
 public:

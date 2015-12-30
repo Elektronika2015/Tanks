@@ -13,6 +13,7 @@
 #include "messagemanager.h"
 #include "ball.h"
 #include "score.h"
+#include "mapbarriers.h"
 
 //class ball;
 
@@ -31,6 +32,7 @@ public:
     void setTankName(QString name);
 
 private:
+    MapBarriers map1;
     QGraphicsScene battleItemsContainer;
     QGraphicsView battlefield;
     Score playerScore;
@@ -49,7 +51,7 @@ private:
     {
         socketPointer->writeToServer(data);
     }
-
+    void drawBarriersOnMap();
     void handleInGame(standardTankInfo info, QString message);
     void handleKillBullet(standardTankInfo info, QString message);
     void handleDestroyed(standardTankInfo info, QString message);

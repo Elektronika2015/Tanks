@@ -16,12 +16,12 @@ GameWindow::GameWindow(QWidget *parent) :
     battleItemsContainer.addItem(&ourPlayer.bullet);
     battleItemsContainer.addItem(&ourPlayer);
     battleItemsContainer.addItem(&playerScore);
+
     playerScore.setPos(MAP_WEST_EDGE,MAP_NORTH_EDGE-35);
     connect(&ourPlayer,SIGNAL(messageSignal(standardTankInfo)),
             this,SLOT(ourPlayerMessage(standardTankInfo)));
-    battlefield.centerOn(100,100);
     battlefield.setScene(&battleItemsContainer);
-    //battlefield.centerOn(100,100);
+    drawBarriersOnMap();
 
     QPen mypen= QPen(Qt::red);
     QLineF TopLine(battleItemsContainer.sceneRect().topLeft(),battleItemsContainer.sceneRect().topRight());
@@ -56,6 +56,14 @@ void GameWindow::setSocketPointer(client_socket *socketAdress)
 void GameWindow::setTankName(QString name)
 {
     ourPlayer.setName(name);
+}
+
+void GameWindow::drawBarriersOnMap()
+{
+    for (int i=0; i<8; i++)
+    {
+        battleItemsContainer.addItem(&map1.barrier[i]);
+    }
 }
 
 void GameWindow::handleInGame(standardTankInfo info, QString message)
@@ -149,6 +157,7 @@ void GameWindow::serverSendMessage(QString data)
             {
                 if(info.name.contains("bullet"))
                 {
+
                     for(int i = 0 ; i < balls.size(); i++)
                     {
                         if(info.name == balls[i]->getBulletName())
@@ -206,9 +215,9 @@ void GameWindow::serverSendMessage(QString data)
         case fired:
             //handle fired
             b = new Ball(NULL,info.name,info.name);
-            b->show();
             balls.append(b);
             battleItemsContainer.addItem(b);
+            b->show();
             break;
         case tankDestroyed:
             handleDestroyed(info,data);
@@ -225,7 +234,6 @@ void GameWindow::serverSendMessage(QString data)
         case scored:
             if(info.name==ourPlayer.getName())
             {
-                logger::log("ZDOBYTO PUNKT!");
                 playerScore.increase();
             }
             break;

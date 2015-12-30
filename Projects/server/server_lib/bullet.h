@@ -18,6 +18,7 @@ private:
 
     int checkEdges();
     int checkForCollision(QString &destroyedName);
+    bool checkCollisionWallsWithBall(int x, int y);
     void setBullet();
     void moveBullet();
 public:
