@@ -59,7 +59,7 @@
       <item row="0" column="1">
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
-         <string>GroupBox</string>
+         <string>Dane gracza</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
