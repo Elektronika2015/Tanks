@@ -26,3 +26,5 @@ libs/server/server_lib/Makefile
 Projects/Czolgi.pro.user
 build-Czolgi-Desktop_Qt_5_5_0_MinGW_32bit-Debug/client/client_app/debug/moc_tankmodel.cpp
 build-Czolgi-Desktop_Qt_5_5_0_MinGW_32bit-Debug/client/client_lib/debug/moc_client.cpp
+
+Projects/Czolgi.pro.user

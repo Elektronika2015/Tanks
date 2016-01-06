@@ -16,6 +16,12 @@ void bullet::moveBulletSlot()
 {
     moveBullet();
     QString destroyedName;
+
+//    bool collisionWithPLayer, collisionWithWall, collisionWithEdges;
+//    collisionWithPLayer = checkForCollision(destroyedName);
+//    collisionWithWall = checkCollisionWallsWithBall(itsInfo.position.x(),itsInfo.position.y());
+//    collisionWithEdges = checkEdges();
+
     if(checkForCollision(destroyedName))
     {
         timer.stop();
@@ -51,8 +57,9 @@ void bullet::moveBulletSlot()
         logger::log("Emiting msg!");
         emit bulletHitSignal(msg, itsInfo.name, destroyedInfo.name);
     }
-    else if(checkEdges()|| checkCollisionWallsWithBall(itsInfo.position.x(),itsInfo.position.y()))
+    else if(checkEdges() || checkCollisionWallsWithBall(itsInfo.position.x(),itsInfo.position.y()))
     {
+        logger::log("------>    Found collision with object!    <----");
         timer.stop();
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(moveBulletSlot()));
 
@@ -109,7 +116,10 @@ int bullet::checkEdges()
             || (itsInfo.position.x() <= MAP_WEST_EDGE)
             || (itsInfo.position.y()<=MAP_NORTH_EDGE)
             || (itsInfo.position.y() >= MAP_SOUTH_EDGE))
+    {
+        logger::log("------>    Found collision with Edge!    <----");
         return true;
+    }
 
     else return false;
 }
@@ -223,28 +233,54 @@ void bullet::moveBullet()
 bool bullet::checkCollisionWallsWithBall(int x, int y)
 {
     //Wall 0
-    if(x>-250 & x<-200 & y >-10 & y<160)return true;
+    if(x>-250 & x<-200 & y >-10 & y<160)
+    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 1
-    if(x>-250 & x<-200 & y >235 & y<405)return true;
+    if(x>-250 & x<-200 & y >235 & y<405)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 2
-    if(x>610 & x<680 & y >-10 & y<160)return true;
+    if(x>610 & x<680 & y >-10 & y<160)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 3
-    if(x>610 & x<680 & y >235 & y<405)return true;
+    if(x>610 & x<680 & y >235 & y<405)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 4
-    if(x>-90 & x<-20 & y >113 & y<283)return true;
+    if(x>-90 & x<-20 & y >113 & y<283)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 5
-    if(x>430 & x<500 & y >113 & y<283)return true;
+    if(x>430 & x<500 & y >113 & y<283)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 6
-    if(x>120 & x<290 & y >-10 & y<60)return true;
+    if(x>120 & x<290 & y >-10 & y<60)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
     //Wall 7
-    if(x>120 & x<290 & y >335 & y<405)return true;
+    if(x>120 & x<290 & y >335 & y<405)    {
+        logger::log("------>    Found collision with Wall 1!    <----");
+        return true;
+    }
 
+    return false;
 
 }
