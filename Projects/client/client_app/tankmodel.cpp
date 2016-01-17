@@ -8,6 +8,7 @@ TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
     tankDirection =north;
     setPos(1,1);
     setTransformOriginPoint(20,25);
+    moveTimerIsOn = false;
 }
 
 
@@ -73,8 +74,19 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 {
     standardTankInfo info;
 
+    if(moveTimerIsOn == false)
+    {
+        connect(&timer,SIGNAL(timeout()),this,SLOT(timerSlot()));
+        timer.start(125);
+        moveTimerIsOn = true;
+    }
+    else
+    {
+        return;
+    }
     switch(event->key())
     {
+
     case Qt::Key_Right:
         if(!(check_map_edges(east))) break;
         tankDirection=east;

@@ -37,8 +37,16 @@ protected:
 private:
     QTimer timer;
     QString name;
+    bool moveTimerIsOn;
 private slots:
     void shoot();
+    void timerSlot()
+    {
+        timer.stop();
+        disconnect(&timer,SIGNAL(timeout()),this,SLOT(timerSlot()));
+        moveTimerIsOn = false;
+    }
+
 signals:
     void sendMessage(QString data);
     void messageSignal(standardTankInfo info);

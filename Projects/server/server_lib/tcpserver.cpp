@@ -216,59 +216,79 @@ QString TCPserver::setShownMsg(QString name)
 QString TCPserver::findNextPossibleName()
 {
     logger::log("Bullets count: "+QString::number(bullets.count()));
-    if(bullets.count() == 0)
-        return "bullet000";
-    else
-    {
-        int bulletLength = QString("bullet").length();
-        QVector<bool> ownedNumbers;
+//    if(bullets.count() == 0)
+//        return "bullet000";
+//    else
+//    {
+//        int bulletLength = QString("bullet").length();
+//        QVector<bool> ownedNumbers;
 
-        QVector<int> numbers;
-        for(int i = 0 ; i < bullets.count(); i++)
-        {
-            QString tmp = bullets[i]->getBulletName();
-            tmp = tmp.remove(0,bulletLength);
-            numbers.append(tmp.toInt());
-        }
+//        QVector<int> numbers;
+//        for(int i = 0 ; i < bullets.count(); i++)
+//        {
+//            QString tmp = bullets[i]->getBulletName();
+//            logger::log("Bullet name: "+ tmp);
+//            tmp = tmp.remove(0,bulletLength);
+//            logger::log("After conversion to int: "+QString::number(tmp.toInt()));
+//            numbers.append(tmp.toInt());
+//        }
 
-        //find the biggest number, so we dont need to create vector of 999 elements
-        //every time we find next possible number.
-        qSort(numbers);
-        ownedNumbers.resize(numbers.first());
-        for(int i = 0; i < numbers.first(); i++)
-            ownedNumbers[i]=false;
+//        //find the biggest number, so we dont need to create vector of 999 elements
+//        //every time we find next possible number.
+//        qSort(numbers);
+//        for(int i = 0 ; i < numbers.count(); i++)
+//            logger::log(QString::number(numbers[i]));
+//        ownedNumbers.resize(numbers.last());
+//        logger::log("The biggest number is:"+QString::number(numbers.first()));
+//        for(int i = 0; i < numbers.last(); i++)
+//            ownedNumbers[i]=false;
 
-        //find out which numbers are already taken
-        for(int i = 0 ; i < ownedNumbers.count(); i++)
-            ownedNumbers[numbers[i]] = true;
+//        logger::log("Ustawianie false");
+//        for(int i = 0 ; i < numbers.count(); i++)
+//            logger::log(QString::number(ownedNumbers[i]));
 
-        //get first possible number and create a message
-        int index = 0 ;
-        for(index; index < ownedNumbers.count(); index++)
-            if(ownedNumbers[index] == false)
-                break;
 
-        //the index of bullet has 3 digits, that is the reason of ifs below.
+//        //find out which numbers are already taken
+//        for(int i = 0 ; i < ownedNumbers.count(); i++)
+//            ownedNumbers[numbers[i]] = true;
+
+//        logger::log("Ustawianie true");
+//        for(int i = 0 ; i < numbers.count(); i++)
+//            logger::log(QString::number(ownedNumbers[i]));
+
+//        //get first possible number and create a message
+//        int index = 0 ;
+//        for(index; index < ownedNumbers.count(); index++)
+//            if(ownedNumbers[index] == false)
+//                break;
+
+//        //the index of bullet has 3 digits, that is the reason of ifs below.
+    static int index = 0;
         QString bulletName = "bullet";
         if(index < 10)
         {
             //we need to add 2 zeros before index
+            bulletName.append("00");
             bulletName.append(QString::number(index));
-            bulletName.insert(bulletLength,"00");
+            //bulletName.insert(bulletLength,"00");
         }
         else if (index < 100)
         {
             //we need to add 1 zero before index
+            bulletName.append("0");
             bulletName.append(QString::number(index));
-            bulletName.insert(bulletLength,"0");
+            //bulletName.insert(bulletLength,"0");
         }
         else
         {
             //add as it is, as it has 3 digits.
             bulletName.append(QString::number(index));
         }
+        index++;
+        if(index >=1000)
+            index = 0 ;
         return bulletName;
-    }
+   // }
 }
 
 int TCPserver::sendMessageToClients(QString data)
@@ -293,25 +313,6 @@ int TCPserver::checkForCollision(standardTankInfo info)
             continue;
 
         QPoint pos = iter.value()->getPosition();
-        /*
-        if(x >= pos.x() && x <= pos.x()+TANK_WIDTH)
-        {
-            int y1, y2;
-            y1=pos.y();
-            y2=pos.y()-TANK_LENGTH;
-            if(info.position.y() <=y1 && info.position.y() >= y2)
-                return 0;
-        }
-        else if(y <= pos.y() && y >= pos.y()-TANK_LENGTH)
-        {
-            int x1, x2;
-            x1=pos.y();
-            x2=pos.y()+TANK_WIDTH;
-            if(info.position.x() >= x1 && info.position.x() <= x2)
-                return 0;
-        }*/
-
-
         if((iter.value()->getTankDirection()==east || iter.value()->getTankDirection()==west) &&( x >=( pos.x()-TANK_LENGTH)) && (x <= pos.x()+TANK_LENGTH) )
         {
             int y1, y2;
@@ -374,6 +375,7 @@ void TCPserver::removeBullet(QString bulletName)
         {
             delete bullets[i];
             bullets.removeAt(i);
+            logger::log("Found bullet to remove: "+bulletName);
         }
 }
 

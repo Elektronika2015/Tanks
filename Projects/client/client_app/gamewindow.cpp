@@ -8,7 +8,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connectWindowPointer(parent)
 
 {
-    logger::setLogToqDebug(false);
+    logger::setLogToqDebug(true);
     ui->setupUi(this);
 
     battleItemsContainer.setBackgroundBrush(Qt::black);
@@ -87,6 +87,10 @@ void GameWindow::handleKillBullet(standardTankInfo info, QString message)
             balls[i]->hide();
             delete balls[i];
             balls.removeAt(i);
+
+            logger::log("Found bullet to kill. Given message:");
+            logger::log(message);
+            logger::log("Bullet name: " + info.name);
         }
     }
 }
