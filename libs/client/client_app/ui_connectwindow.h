@@ -82,7 +82,7 @@ public:
         serverAddresLineEdit->setText(QApplication::translate("ConnectWindow", "127.0.0.1", 0));
         serverPortLineEdit->setText(QApplication::translate("ConnectWindow", "1234", 0));
         backButton->setText(QApplication::translate("ConnectWindow", "Wstecz", 0));
-        label_4->setText(QApplication::translate("ConnectWindow", "Nie ok", 0));
+        label_4->setText(QString());
     } // retranslateUi
 
 };

@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     enemytank.cpp \
     score.cpp \
     walls.cpp \
-    mapbarriers.cpp
+    mapbarriers.cpp \
+    background.cpp
 
 HEADERS  += mainwindow.h \
     connectwindow.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     enemytank.h \
     score.h \
     walls.h \
-    mapbarriers.h
+    mapbarriers.h \
+    background.h
 
 FORMS    += mainwindow.ui \
     connectwindow.ui \

@@ -9,13 +9,18 @@ GameWindow::GameWindow(QWidget *parent) :
 
 {
     logger::setLogToqDebug(true);
-    ui->setupUi(this);
-
+    ui->setupUi(this);  
     battleItemsContainer.setBackgroundBrush(Qt::black);
     battleItemsContainer.setSceneRect(MAP_WEST_EDGE,MAP_NORTH_EDGE,(-MAP_WEST_EDGE)+MAP_EAST_EDGE,(-MAP_NORTH_EDGE)+MAP_SOUTH_EDGE);
+    battleItemsContainer.addItem(&mapBackground);
     battleItemsContainer.addItem(&ourPlayer.bullet);
-    battleItemsContainer.addItem(&ourPlayer);
     battleItemsContainer.addItem(&playerScore);
+    battleItemsContainer.addItem(&ourPlayer);
+    ourPlayer.setFocus();
+
+
+
+
 
     playerScore.setPos(MAP_WEST_EDGE,MAP_NORTH_EDGE-35);
     connect(&ourPlayer,SIGNAL(messageSignal(standardTankInfo)),
@@ -136,6 +141,13 @@ void GameWindow::handleShown(standardTankInfo info, QString message)
         }
     }
 }
+
+void GameWindow::mousePressEvent(QMouseEvent *event)
+{
+    ourPlayer.setFocus();
+    logger::log("Mysz zostala kliknieta");
+}
+
 
 void GameWindow::serverSendMessage(QString data)
 {

@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui(new Ui::MainWindow)
 {
     ui.setupUi(this);
-    //logger::setLogToqDebug(false);
+   logger::setLogToqDebug(false);
     logger::setCallbackFunc(callback);
     serv.startServer();
     connect(&serv,SIGNAL(playerConnectedSignal(standardTankInfo)),

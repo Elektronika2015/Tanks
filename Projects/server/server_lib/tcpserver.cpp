@@ -356,10 +356,13 @@ bool TCPserver::checkCollisionWallsWithTank(int x, int y)
     if(x>400 & x<505 & y >73 & y<283)return true;
 
     //Wall 6
-    if(x>90 & x<295 & y >-50 & y<60)return true;
+    if(x>90 & x<295 & y >-50 & y<55)return true;
 
     //Wall 7
-    if(x>90 & x<295 & y >295 & y<405)return true;
+    if(x>90 & x<295 & y >300 & y<405)return true;
+
+    //Oczko
+    if(x>77 & x<297 & y >70 & y<287)return true;
 
 
 

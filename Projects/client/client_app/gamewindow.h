@@ -14,6 +14,7 @@
 #include "ball.h"
 #include "score.h"
 #include "mapbarriers.h"
+#include "background.h"
 
 //class ball;
 
@@ -40,6 +41,7 @@ private:
     messageManager messenger;
     QList<EnemyTank*> enemies;
     QList<Ball*> balls; //ale jaja
+    background mapBackground;
 
     QWidget *connectWindowPointer;
     client_socket *socketPointer;
@@ -56,6 +58,7 @@ private:
     void handleKillBullet(standardTankInfo info, QString message);
     void handleDestroyed(standardTankInfo info, QString message);
     void handleShown(standardTankInfo info, QString message);
+    void mousePressEvent(QMouseEvent * event);
 private slots:
     void serverSendMessage(QString data);
     void ourPlayerMessage(standardTankInfo info);

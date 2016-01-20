@@ -189,7 +189,7 @@ public:
         groupBox->setTitle(QApplication::translate("MainWindow", "Dane serwera", 0));
         label_2->setText(QApplication::translate("MainWindow", "Port", 0));
         label->setText(QApplication::translate("MainWindow", "Adres Ip", 0));
-        groupBox_2->setTitle(QApplication::translate("MainWindow", "GroupBox", 0));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Dane gracza", 0));
         label_3->setText(QApplication::translate("MainWindow", "Nazwa gracza", 0));
         label_4->setText(QApplication::translate("MainWindow", "Pozycja", 0));
         label_5->setText(QApplication::translate("MainWindow", "Kierunek", 0));

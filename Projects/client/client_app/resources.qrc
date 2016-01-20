@@ -4,5 +4,6 @@
         <file>Graphics/ball.png</file>
         <file>Graphics/enemyTank.png</file>
         <file>Graphics/wall.png</file>
+        <file>Graphics/background.png</file>
     </qresource>
 </RCC>

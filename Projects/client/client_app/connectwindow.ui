@@ -124,7 +124,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Nie ok</string>
+    <string/>
    </property>
   </widget>
  </widget>

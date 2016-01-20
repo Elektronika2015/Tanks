@@ -4,11 +4,13 @@
 TankModel::TankModel(QGraphicsItem *parent): QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
+    setFlag(QGraphicsItem::ItemIsSelectable);
     name = "noname";
     tankDirection =north;
     setPos(1,1);
     setTransformOriginPoint(20,25);
-    moveTimerIsOn = false;
+    shootTimerIsOn = false;
+    variableResponsibleForKeepTheValueOfLastUsingQtKeyInKeyPressEventFunction=-1;
 }
 
 
@@ -73,39 +75,46 @@ void TankModel::setTankDirection(direction dir)
 void TankModel::keyPressEvent(QKeyEvent *event)
 {
     standardTankInfo info;
-
-    if(moveTimerIsOn == false)
+    if(variableResponsibleForKeepTheValueOfLastUsingQtKeyInKeyPressEventFunction!=event->key()&& variableResponsibleForKeepTheValueOfLastUsingQtKeyInKeyPressEventFunction!=Qt::Key_Space)
     {
-        connect(&timer,SIGNAL(timeout()),this,SLOT(timerSlot()));
-        timer.start(125);
-        moveTimerIsOn = true;
-    }
-    else
-    {
-        return;
+        disconnectAndStopTimer2Slot();
     }
     switch(event->key())
     {
-
     case Qt::Key_Right:
+        if(moveTimer2IsOn == false)
+        {
+            connect(&timer2,SIGNAL(timeout()),this,SLOT(disconnectAndStopTimer2Slot()));
+            timer2.start(30);
+            moveTimer2IsOn = true;
+        }
+        else
+        {
+            break;
+        }
         if(!(check_map_edges(east))) break;
         tankDirection=east;
-
-
         info.name=this->name;
         info.position = this->pos().toPoint();
-
         info.position.rx() += 5;
-
         info.tankDirection = tankDirection;
         info.tankActivity = moved;
         emit messageSignal(info);
         break;
 
    case Qt::Key_Left:
+        if(moveTimer2IsOn == false)
+        {
+            connect(&timer2,SIGNAL(timeout()),this,SLOT(disconnectAndStopTimer2Slot()));
+            timer2.start(30);
+            moveTimer2IsOn = true;
+        }
+        else
+        {
+            break;
+        }
         if(!(check_map_edges(west))) break;
         tankDirection=west;
-
         info.name=this->name;
         info.position = this->pos().toPoint();
         info.position.rx() -= 5;
@@ -116,6 +125,16 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
 
    case Qt::Key_Up:
+        if(moveTimer2IsOn == false)
+        {
+            connect(&timer2,SIGNAL(timeout()),this,SLOT(disconnectAndStopTimer2Slot()));
+            timer2.start(30);
+            moveTimer2IsOn = true;
+        }
+        else
+        {
+            break;
+        }
         if(!(check_map_edges(north))) break;
         tankDirection=north;
         info.name=this->name;
@@ -128,6 +147,16 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 
 
    case Qt::Key_Down:
+        if(moveTimer2IsOn == false)
+        {
+            connect(&timer2,SIGNAL(timeout()),this,SLOT(disconnectAndStopTimer2Slot()));
+            timer2.start(30);
+            moveTimer2IsOn = true;
+        }
+        else
+        {
+            break;
+        }
         if(!(check_map_edges(south))) break;
         tankDirection=south;
         info.name=this->name;
@@ -143,6 +172,16 @@ void TankModel::keyPressEvent(QKeyEvent *event)
 //       bullet.setBullet(tankDirection,coordinateX,coordinateY);
 //       connect(&timer,SIGNAL(timeout()),this,SLOT(shoot()));
 //       timer.start(18);
+        if(shootTimerIsOn == false)
+        {
+            connect(&timer,SIGNAL(timeout()),this,SLOT(timerSlot()));
+            timer.start(2000);
+            shootTimerIsOn = true;
+        }
+        else
+        {
+            break;
+        }
        info.name=this->name;
        info.position = this->pos().toPoint();
        info.tankDirection = tankDirection;
@@ -150,7 +189,7 @@ void TankModel::keyPressEvent(QKeyEvent *event)
        emit messageSignal(info);
         break;
    }
-
+variableResponsibleForKeepTheValueOfLastUsingQtKeyInKeyPressEventFunction=event->key();
 }
 
 

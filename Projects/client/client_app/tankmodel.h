@@ -36,15 +36,24 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
     QTimer timer;
+    QTimer timer2;
     QString name;
-    bool moveTimerIsOn;
+    int variableResponsibleForKeepTheValueOfLastUsingQtKeyInKeyPressEventFunction;
+    bool shootTimerIsOn;
+    bool moveTimer2IsOn;
 private slots:
     void shoot();
     void timerSlot()
     {
         timer.stop();
         disconnect(&timer,SIGNAL(timeout()),this,SLOT(timerSlot()));
-        moveTimerIsOn = false;
+        shootTimerIsOn = false;
+    }
+    void disconnectAndStopTimer2Slot()
+    {
+        timer2.stop();
+        disconnect(&timer2,SIGNAL(timeout()),this,SLOT(disconnectAndStopTimer2Slot()));
+        moveTimer2IsOn = false;
     }
 
 signals:
